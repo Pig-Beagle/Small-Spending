@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    username: root
+    password: 1234
+    mapper-locations: classpath:/mapper/**/*.xml
+    url: jdbc:mysql://localhost:3306/spending?&serverTimezone=UTC&autoReconnect=true&allowMultiQueries=true&characterEncoding=UTF-8
+    driver: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  configuration:
+    multiple-result-sets-enabled: false
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+    jdbc-type-for-null: varchar
+    default-fetch-size: 500
+  mapper-locations:
+    - classpath:mapper/*.xml
+  type-aliases-package: com.zzdd.smallspending.*
