@@ -15,6 +15,7 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+
     @PostMapping("/sign_up")
     public String signUp(MemberDto memberDto){
 
@@ -24,6 +25,11 @@ public class MemberController {
         }
         return "fail";
     }
+
+//    @PostMapping("/login")
+//    public String login(MemberDto memberDto) {
+//
+//    }
 
     @GetMapping("/check_id")
     public String checkId(String id) {
@@ -42,6 +48,5 @@ public class MemberController {
         }
         return "false";
     }
-    
 
 }

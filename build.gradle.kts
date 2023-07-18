@@ -24,11 +24,18 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0")
+	implementation ("org.springframework.boot:spring-boot-starter-security")
+
+	implementation ("io.jsonwebtoken:jjwt-api:0.11.5")
+	implementation ("io.jsonwebtoken:jjwt-impl:0.11.5")
+	implementation ("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	runtimeOnly ("com.mysql:mysql-connector-j")
-	implementation ("org.springframework.boot:spring-boot-starter-security")
+
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation ("org.springframework.security:spring-security-test")
 
 }
 

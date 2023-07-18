@@ -20,6 +20,8 @@ public class MemberServiceImpl implements MemberService {
             return 0;
         }
 
+        memberDto.setPwd(encodePwd(memberDto.getPwd()));
+
         return memberRepository.insertMember(memberDto);
     }
 
@@ -33,5 +35,9 @@ public class MemberServiceImpl implements MemberService {
     public boolean isNickExist(String nick){
         MemberDto memberDto = memberRepository.selectOneByNick(nick);
         return memberDto != null;
+    }
+
+    private String encodePwd(String pwd){
+        return passwordEncoder.encode(pwd);
     }
 }

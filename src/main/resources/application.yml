@@ -16,3 +16,8 @@ mybatis:
   mapper-locations:
     - classpath:mapper/*.xml
   type-aliases-package: com.zzdd.smallspending.*
+
+jwt:
+  header: Authorization
+  secret: ${JWT_SECRET_KEY}
+access-token-validity-in-seconds: 86400
