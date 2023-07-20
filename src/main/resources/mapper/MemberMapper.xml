@@ -30,4 +30,10 @@
         FROM MEMBER
         WHERE NICK = #{value}
     </select>
+
+    <select id="selectOneMember" parameterType="MemberDto" resultType="MemberDto">
+        SELECT *
+        FROM MEMBER
+        WHERE ID = #{id}
+    </select>
 </mapper>

@@ -11,4 +11,6 @@ public interface MemberMapper {
     MemberDto selectOneById(String id);
 
     MemberDto selectOneByNick(String nick);
+
+    MemberDto selectOneMember(MemberDto memberDto);
 }

@@ -23,4 +23,9 @@ public class MemberRepositoryImpl implements MemberRepository {
     public MemberDto selectOneByNick(String nick) {
         return memberMapper.selectOneByNick(nick);
     }
+
+    @Override
+    public MemberDto selectOneMember(MemberDto memberDto) {
+        return memberMapper.selectOneMember(memberDto);
+    }
 }

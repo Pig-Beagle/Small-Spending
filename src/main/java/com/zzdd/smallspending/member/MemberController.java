@@ -1,7 +1,10 @@
 package com.zzdd.smallspending.member;
 
+import com.zzdd.smallspending.token.TokenDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class MemberController {
 
     @Autowired
@@ -26,10 +30,11 @@ public class MemberController {
         return "fail";
     }
 
-//    @PostMapping("/login")
-//    public String login(MemberDto memberDto) {
-//
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<TokenDto> login(MemberDto memberDto) {
+        log.info(memberDto.toString());
+        return ResponseEntity.ok().body(memberService.login(memberDto));
+    }
 
     @GetMapping("/check_id")
     public String checkId(String id) {
