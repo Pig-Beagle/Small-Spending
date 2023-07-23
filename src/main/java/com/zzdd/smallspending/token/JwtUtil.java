@@ -19,9 +19,9 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    private final Long expiredTime = 86400L;
+    private final Long expiredTime = 86400000L;
 
-    private final Long expiredRefreshTime = 1209600L;
+    private final Long expiredRefreshTime = 1209600000L;
 
     private Key getSigninKey() {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
@@ -46,6 +46,25 @@ public class JwtUtil {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public boolean isExpired(String token){
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSigninKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getExpiration()
+                    .before(new Date());
+    }
+
+    public String getUserName(String token){
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigninKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("userId", String.class);
     }
 
 

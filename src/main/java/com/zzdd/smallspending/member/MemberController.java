@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class MemberController {
-
     @Autowired
     private MemberService memberService;
 
@@ -32,7 +31,6 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(MemberDto memberDto) {
-        log.info(memberDto.toString());
         return ResponseEntity.ok().body(memberService.login(memberDto));
     }
 
@@ -53,5 +51,6 @@ public class MemberController {
         }
         return "false";
     }
+
 
 }
