@@ -1,15 +1,11 @@
 package com.zzdd.smallspending.member;
 
 import com.zzdd.smallspending.common.ApiMessage;
-import com.zzdd.smallspending.token.TokenDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -30,13 +26,13 @@ public class MemberController {
 
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<ApiMessage<TokenDto>> login(MemberDto memberDto) {
-        TokenDto token = memberService.login(memberDto);
-        if (token == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiMessage<>(HttpStatus.FORBIDDEN, "로그인 실패", null));
+    @DeleteMapping("/delete_account")
+    public ResponseEntity<ApiMessage<MemberDto>> deleteMember(MemberDto memberDto) {
+        int result = memberService.deleteMember(memberDto);
+        if (result != 1) {
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "회원탈퇴 실패", null));
         }
-        return ResponseEntity.ok().body(new ApiMessage<>(HttpStatus.OK, "로그인 성공", token));
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "회원탈퇴 성공", null));
     }
 
     @GetMapping("/check_id")

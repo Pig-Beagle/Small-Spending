@@ -13,6 +13,15 @@ public class MemberRepositoryImpl implements MemberRepository {
     public int insertMember(MemberDto memberDto) {
         return memberMapper.insertMember(memberDto);
     }
+    @Override
+    public MemberDto selectOneMember(MemberDto memberDto) {
+        return memberMapper.selectOneMember(memberDto);
+    }
+
+    @Override
+    public int deleteMember(MemberDto memberDto) {
+        return memberMapper.deleteOneMember(memberDto);
+    }
 
     @Override
     public MemberDto selectOneById(String id) {
@@ -24,8 +33,5 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.selectOneByNick(nick);
     }
 
-    @Override
-    public MemberDto selectOneMember(MemberDto memberDto) {
-        return memberMapper.selectOneMember(memberDto);
-    }
+
 }

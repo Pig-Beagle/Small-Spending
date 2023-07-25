@@ -5,6 +5,10 @@ spring:
     mapper-locations: classpath:/mapper/**/*.xml
     url: jdbc:mysql://localhost:3306/spending?&serverTimezone=UTC&autoReconnect=true&allowMultiQueries=true&characterEncoding=UTF-8
     driver: com.mysql.cj.jdbc.Driver
+  redis:
+    host: localhost
+    port: 6379
+
 
 mybatis:
   configuration:
@@ -20,4 +24,3 @@ mybatis:
 jwt:
   header: Authorization
   secret: ${JWT_SECRET_KEY}
-access-token-validity-in-seconds: 86400

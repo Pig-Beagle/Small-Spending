@@ -36,4 +36,10 @@
         FROM MEMBER
         WHERE ID = #{id}
     </select>
+
+    <delete id="deleteOneMember" parameterType="MemberDto">
+        DELETE
+        FROM MEMBER
+        WHERE ID = #{id}
+    </delete>
 </mapper>

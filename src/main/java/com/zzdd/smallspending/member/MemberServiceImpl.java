@@ -1,23 +1,17 @@
 package com.zzdd.smallspending.member;
 
-import com.zzdd.smallspending.token.JwtUtil;
-import com.zzdd.smallspending.token.TokenDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class MemberServiceImpl implements MemberService {
 
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public int signUp(MemberDto memberDto) {
@@ -31,19 +25,15 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.insertMember(memberDto);
     }
     @Override
-    public TokenDto login(MemberDto memberDto) {
-        MemberDto selectMember = memberRepository.selectOneMember(memberDto);
+    public int deleteMember(MemberDto memberDto) {
 
-        if(selectMember == null){
-            return null;
+        MemberDto member = memberRepository.selectOneMember(memberDto);
+
+        if(member == null){
+            return 0;
         }
 
-        if(!passwordEncoder.matches(memberDto.getPwd(), selectMember.getPwd())){
-            return null;
-        }
-
-
-        return jwtUtil.generateToken(memberDto.getId());
+        return memberRepository.deleteMember(memberDto);
     }
 
     @Override

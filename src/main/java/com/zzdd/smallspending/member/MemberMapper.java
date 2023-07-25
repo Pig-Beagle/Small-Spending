@@ -8,9 +8,13 @@ import org.mybatis.spring.annotation.MapperScan;
 public interface MemberMapper {
     int insertMember(MemberDto memberDto);
 
+    int deleteOneMember(MemberDto memberDto);
+
+    MemberDto selectOneMember(MemberDto memberDto);
+
     MemberDto selectOneById(String id);
 
     MemberDto selectOneByNick(String nick);
 
-    MemberDto selectOneMember(MemberDto memberDto);
+
 }

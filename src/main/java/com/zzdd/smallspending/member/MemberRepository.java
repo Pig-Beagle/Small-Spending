@@ -9,4 +9,6 @@ public interface MemberRepository {
     MemberDto selectOneByNick(String nick);
 
     MemberDto selectOneMember(MemberDto memberDto);
+
+    int deleteMember(MemberDto memberDto);
 }
