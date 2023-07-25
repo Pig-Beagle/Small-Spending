@@ -19,16 +19,13 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    private final Long expiredTime = 86400000L;
-
-    private final Long expiredRefreshTime = 1209600000L;
-
     private Key getSigninKey() {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public TokenDto generateToken(String userId){
+        long expiredTime = 86400000L;
         String accessToken = Jwts.builder()
                 .claim("userId", userId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -36,6 +33,7 @@ public class JwtUtil {
                 .signWith(getSigninKey(), SignatureAlgorithm.HS512)
                 .compact();
 
+        long expiredRefreshTime = 1209600000L;
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(System.currentTimeMillis() + expiredRefreshTime))
                 .signWith(getSigninKey(), SignatureAlgorithm.HS512)
@@ -46,6 +44,15 @@ public class JwtUtil {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public TokenDto reissuanceToken(String refreshToken){
+        if(!isExpired(refreshToken)){
+            String userId = getUserName(refreshToken);
+
+            return generateToken(userId);
+        }
+        return null;
     }
 
     public boolean isExpired(String token){
@@ -66,6 +73,8 @@ public class JwtUtil {
                 .getBody()
                 .get("userId", String.class);
     }
+
+
 
 
 }
