@@ -1,9 +1,7 @@
 package com.zzdd.smallspending.config;
 
-import com.zzdd.smallspending.member.MemberService;
 import com.zzdd.smallspending.token.JwtAuthenticationFilter;
 import com.zzdd.smallspending.token.JwtUtil;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +40,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/user/*").permitAll()
-                .antMatchers("/test/*").authenticated()
+                .antMatchers("/post/*").authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

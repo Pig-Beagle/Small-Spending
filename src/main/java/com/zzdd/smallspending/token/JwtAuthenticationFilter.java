@@ -1,6 +1,5 @@
 package com.zzdd.smallspending.token;
 
-import com.zzdd.smallspending.member.AuthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -16,14 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final AuthService authService;
-    private final String secretKey;
+    private String secretKey;
     private JwtUtil jwtUtil;
 
     @Override
@@ -43,11 +40,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // token Expired 여부
         if(jwtUtil.isExpired(token)){
-            TokenDto newAccessToken = authService.refreshToken(token);
-            if (newAccessToken == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
-            }
+            filterChain.doFilter(request, response);
+            return;
         }
 
 

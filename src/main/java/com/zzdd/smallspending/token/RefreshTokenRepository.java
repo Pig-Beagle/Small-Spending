@@ -24,10 +24,11 @@ public class RefreshTokenRepository {
         redisTemplate.expire(refreshToken.getRefreshToken(), 1209600000L, TimeUnit.MICROSECONDS);
     }
 
-    public void delete(RefreshToken refreshToken){
-        if(redisTemplate.opsForValue().get(refreshToken.getMemberId()) != null){
-            redisTemplate.delete(refreshToken.getMemberId());
+    public boolean delete(String memberId){
+        if(redisTemplate.opsForValue().get(memberId) == null){
+            return false;
         }
+       return Boolean.TRUE.equals(redisTemplate.delete(memberId));
     }
 
     public Optional<RefreshToken> findById(String refreshToken) {

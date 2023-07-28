@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @Slf4j
 @RestController
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("/sign_up")
+    @PostMapping("/member")
     public ResponseEntity<ApiMessage<Object>> signUp(MemberDto memberDto){
 
         int result = memberService.signUp(memberDto);
@@ -26,9 +28,10 @@ public class MemberController {
 
     }
 
-    @DeleteMapping("/delete_account")
-    public ResponseEntity<ApiMessage<MemberDto>> deleteMember(MemberDto memberDto) {
-        int result = memberService.deleteMember(memberDto);
+    @DeleteMapping("/member")
+    public ResponseEntity<ApiMessage<MemberDto>> deleteMember(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        int result = memberService.deleteMember(authorization);
         if (result != 1) {
             return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "회원탈퇴 실패", null));
         }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @RestController
@@ -28,9 +29,19 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<ApiMessage<MemberDto>> logout(MemberDto memberDto) {
-        authService.logout(memberDto);
-        return ResponseEntity.ok().body(new ApiMessage<>(HttpStatus.OK, "로그인 성공", memberDto));
+    public ResponseEntity<ApiMessage<Boolean>> logout(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        boolean result = authService.logout(authorization);
+        if(!result){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiMessage<>(HttpStatus.FORBIDDEN, "로그아웃 실패", false));
+        }
+        return ResponseEntity.ok().body(new ApiMessage<>(HttpStatus.OK, "로그아웃 성공", true));
+    }
+
+    @PostMapping("/get_refreshToken")
+    public ResponseEntity<ApiMessage<TokenDto>> newToken(String refreshToken) {
+        TokenDto newToken = authService.newToken(refreshToken);
+        return ResponseEntity.ok().body(new ApiMessage<>(HttpStatus.OK, "리프레시 토큰 발급 성공", newToken));
     }
 
 }

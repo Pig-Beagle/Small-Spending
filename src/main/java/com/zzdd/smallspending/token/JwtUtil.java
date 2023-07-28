@@ -1,9 +1,9 @@
 package com.zzdd.smallspending.token;
 
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -24,10 +24,11 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDto generateToken(String userId){
-        long expiredTime = 86400000L;
+    public TokenDto generateToken(String userId, int userNo) {
+        long expiredTime = 30000L;
         String accessToken = Jwts.builder()
                 .claim("userId", userId)
+                .claim("userNo", userNo)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiredTime))
                 .signWith(getSigninKey(), SignatureAlgorithm.HS512)
@@ -46,16 +47,17 @@ public class JwtUtil {
                 .build();
     }
 
-    public TokenDto reissuanceToken(String refreshToken){
-        if(!isExpired(refreshToken)){
-            String userId = getUserName(refreshToken);
+//    public TokenDto reissuanceToken(String refreshToken){
+//        if(!isExpired(refreshToken)){
+//            String userId = getUserName(refreshToken);
+//
+//            return generateToken(userId, userNo);
+//        }
+//        return null;
+//    }
 
-            return generateToken(userId);
-        }
-        return null;
-    }
-
-    public boolean isExpired(String token){
+    public boolean isExpired(String token) {
+        try {
             return Jwts.parserBuilder()
                     .setSigningKey(getSigninKey())
                     .build()
@@ -63,9 +65,12 @@ public class JwtUtil {
                     .getBody()
                     .getExpiration()
                     .before(new Date());
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
+            return true;
+        }
     }
 
-    public String getUserName(String token){
+    public String getUserName(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigninKey())
                 .build()
@@ -74,7 +79,13 @@ public class JwtUtil {
                 .get("userId", String.class);
     }
 
-
-
+    public Integer getuserNo(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigninKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("userNo", Integer.class);
+    }
 
 }

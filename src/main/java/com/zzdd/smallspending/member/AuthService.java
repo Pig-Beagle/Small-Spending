@@ -8,8 +8,7 @@ public interface AuthService {
 
     Optional<TokenDto> login(MemberDto memberDto);
 
-    void logout(MemberDto memberDto);
+    TokenDto newToken(String refreshToken);
 
-    TokenDto refreshToken(String refreshToken);
-
+    boolean logout(String authorization);
 }

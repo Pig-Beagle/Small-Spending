@@ -1,5 +1,6 @@
 package com.zzdd.smallspending.member;
 
+import com.zzdd.smallspending.token.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Override
     public int signUp(MemberDto memberDto) {
@@ -24,16 +27,21 @@ public class MemberServiceImpl implements MemberService {
 
         return memberRepository.insertMember(memberDto);
     }
-    @Override
-    public int deleteMember(MemberDto memberDto) {
 
-        MemberDto member = memberRepository.selectOneMember(memberDto);
+    @Override
+    public int deleteMember(String authorization) {
+        String token = authorization.split(" ")[1];
+        String userId = jwtUtil.getUserName(token);
+        MemberDto member = memberRepository.selectOneById(userId);
 
         if(member == null){
             return 0;
         }
+        int result = memberRepository.deleteMember(member);
 
-        return memberRepository.deleteMember(memberDto);
+        authService.logout(authorization);
+
+        return result;
     }
 
     @Override

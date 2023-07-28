@@ -31,15 +31,9 @@
         WHERE NICK = #{value}
     </select>
 
-    <select id="selectOneMember" parameterType="MemberDto" resultType="MemberDto">
-        SELECT *
-        FROM MEMBER
+    <update id="deleteOneMember" parameterType="MemberDto">
+        UPDATE MEMBER
+        SET QUIT_YN = 'Y'
         WHERE ID = #{id}
-    </select>
-
-    <delete id="deleteOneMember" parameterType="MemberDto">
-        DELETE
-        FROM MEMBER
-        WHERE ID = #{id}
-    </delete>
+    </update>
 </mapper>
