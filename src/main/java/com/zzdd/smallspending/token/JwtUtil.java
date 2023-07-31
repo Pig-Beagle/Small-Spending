@@ -25,7 +25,7 @@ public class JwtUtil {
     }
 
     public TokenDto generateToken(String userId, int userNo) {
-        long expiredTime = 30000L;
+        long expiredTime = 300000L;
         String accessToken = Jwts.builder()
                 .claim("userId", userId)
                 .claim("userNo", userNo)

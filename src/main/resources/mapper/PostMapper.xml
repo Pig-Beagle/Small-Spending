@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zzdd.smallspending.post.PostMapper">
+    <insert id="insertPost" parameterType="PostDto">
+        INSERT INTO
+            SPENDING(
+                     MEMBER_NO,
+                     AMOUNT,
+                     CATEGORY,
+                     CONTENT,
+                     OPEN_YN
+                    )
+            VALUES(
+                   #{memberNo},
+                   #{amount},
+                   #{category},
+                   #{content},
+                   #{openYN}
+                  )
+    </insert>
+    <select id="selectList" parameterType="PageDto" resultType="PostDto">
+        SELECT
+            NO,
+            MEMBER_NO,
+            AMOUNT,
+            CATEGORY,
+            CONTENT,
+            WRITE_DATE
+        FROM SPENDING
+        WHERE OPEN_YN = 'Y'
+        ORDER BY WRITE_DATE DESC
+        LIMIT #{size}
+        OFFSET #{offset}
+    </select>
+</mapper>
