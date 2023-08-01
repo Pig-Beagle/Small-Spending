@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 @Slf4j
@@ -36,6 +37,33 @@ public class MemberController {
             return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "회원탈퇴 실패", null));
         }
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "회원탈퇴 성공", null));
+    }
+
+    @GetMapping("/myPage")
+    public ResponseEntity<ApiMessage<List<MemberDto>>> myPage(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        List<MemberDto> result = memberService.myPage(authorization);
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "마이페이지 조회 성공", result));
+    }
+
+    @PatchMapping("/edit_pwd")
+    public ResponseEntity<ApiMessage<MemberDto>> editPwd(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        memberService.editPwd(authorization);
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "비밀번호 수정 성공", null));
+    }
+
+    @PostMapping("/validate_pwd")
+    public ResponseEntity<ApiMessage<Boolean>> validatePwd(HttpServletRequest request, String pwd) {
+        String authorization = request.getHeader("Authorization");
+
+        boolean result = memberService.validatePwd(authorization, pwd);
+
+        if(!result){
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "비밀번호 불일치", result));
+        }
+
+        return ResponseEntity.ok().body(new ApiMessage<>(HttpStatus.OK, "비밀번호 일치", result));
     }
 
     @GetMapping("/check_id")

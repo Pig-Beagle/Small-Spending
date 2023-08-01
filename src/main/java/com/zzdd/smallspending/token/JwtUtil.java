@@ -70,7 +70,7 @@ public class JwtUtil {
         }
     }
 
-    public String getUserName(String token) {
+    public String getUserId(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigninKey())
                 .build()

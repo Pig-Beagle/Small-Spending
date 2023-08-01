@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         // ID에서 Token 꺼내기
-        String userId = jwtUtil.getUserName(token);
+        String userId = jwtUtil.getUserId(token);
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, null,
                 List.of(new SimpleGrantedAuthority("USER")));

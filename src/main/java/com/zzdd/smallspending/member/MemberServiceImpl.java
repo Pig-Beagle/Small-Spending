@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -31,7 +33,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int deleteMember(String authorization) {
         String token = authorization.split(" ")[1];
-        String userId = jwtUtil.getUserName(token);
+        String userId = jwtUtil.getUserId(token);
         MemberDto member = memberRepository.selectOneById(userId);
 
         if(member == null){
@@ -43,6 +45,36 @@ public class MemberServiceImpl implements MemberService {
 
         return result;
     }
+    @Override
+    public List<MemberDto> myPage(String authorization) {
+        String token = authorization.split(" ")[1];
+        Integer userNo = jwtUtil.getuserNo(token);
+
+        return memberRepository.selectMyPage(userNo);
+    }
+
+
+    @Override
+    public int editPwd(String authorization) {
+
+
+        return 0;
+    }
+
+    @Override
+    public boolean validatePwd(String authorization, String pwd) {
+        String token = authorization.split(" ")[1];
+        String userId = jwtUtil.getUserId(token);
+
+        MemberDto selectMember = memberRepository.selectOneById(userId);
+
+        if(!passwordEncoder.matches(pwd, selectMember.getPwd())) {
+            return false;
+        }
+
+        return true;
+    }
+
 
     @Override
     public boolean isIdExist(String id){
@@ -55,7 +87,6 @@ public class MemberServiceImpl implements MemberService {
         MemberDto memberDto = memberRepository.selectOneByNick(nick);
         return memberDto != null;
     }
-
 
     private String encodePwd(String pwd){
         return passwordEncoder.encode(pwd);

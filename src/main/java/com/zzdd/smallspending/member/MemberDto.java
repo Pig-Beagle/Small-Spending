@@ -3,7 +3,7 @@ package com.zzdd.smallspending.member;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Alias("MemberDto")
@@ -14,7 +14,7 @@ public class MemberDto {
     private String pwd;
     private String name;
     private String nick;
-    private Timestamp enrollDate;
+    private LocalDateTime enrollDate;
     private String quitYN;
 
 

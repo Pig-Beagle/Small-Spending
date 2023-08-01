@@ -1,13 +1,15 @@
 package com.zzdd.smallspending.member;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
+@RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepository {
 
-    @Autowired
-    MemberMapper memberMapper;
+    private final MemberMapper memberMapper;
 
     @Override
     public int insertMember(MemberDto memberDto) {
@@ -18,6 +20,17 @@ public class MemberRepositoryImpl implements MemberRepository {
     public int deleteMember(MemberDto memberDto) {
         return memberMapper.deleteOneMember(memberDto);
     }
+
+    @Override
+    public List<MemberDto> selectMyPage(Integer userNo) {
+        return memberMapper.selectMyPage(userNo);
+    }
+
+    @Override
+    public int updatePwd(Integer userNo) {
+        return 0;
+    }
+
 
     @Override
     public MemberDto selectOneById(String id) {
