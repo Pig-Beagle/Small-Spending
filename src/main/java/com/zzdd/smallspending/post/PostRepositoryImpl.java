@@ -19,7 +19,12 @@ public class PostRepositoryImpl implements PostRepository{
     }
 
     @Override
-    public List<PostDto> selectList(PageDto pageDto) {
-        return postMapper.selectList(pageDto);
+    public List<PostDto> selectListAll(PageDto pageDto) {
+        return postMapper.selectListAll(pageDto);
+    }
+
+    @Override
+    public List<PostDto> selectListByNo(PageDto pageDto) {
+        return postMapper.selectListByNo(pageDto);
     }
 }

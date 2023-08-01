@@ -20,7 +20,7 @@
                    #{openYN}
                   )
     </insert>
-    <select id="selectList" parameterType="PageDto" resultType="PostDto">
+    <select id="selectListAll" parameterType="PageDto" resultType="PostDto">
         SELECT
             NO,
             MEMBER_NO,
@@ -30,6 +30,24 @@
             WRITE_DATE
         FROM SPENDING
         WHERE OPEN_YN = 'Y'
+        ORDER BY WRITE_DATE DESC
+        LIMIT #{size}
+        OFFSET #{offset}
+    </select>
+
+    <select id="selectListByNo" parameterType="PageDto" resultType="PostDto">
+        SELECT
+        NO,
+        MEMBER_NO,
+        AMOUNT,
+        CATEGORY,
+        CONTENT,
+        WRITE_DATE
+        FROM SPENDING
+        WHERE MEMBER_NO = #{memberNo}
+        <if test="memberNo != currentMemberNo">
+            AND OPEN_YN = 'Y'
+        </if>
         ORDER BY WRITE_DATE DESC
         LIMIT #{size}
         OFFSET #{offset}

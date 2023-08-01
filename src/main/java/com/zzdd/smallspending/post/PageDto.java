@@ -9,6 +9,8 @@ public class PageDto {
 
     private int page;
     private int size;
+    private int memberNo;
+    private int currentMemberNo;
 
     public int getOffset(){
         return (page - 1) * size;

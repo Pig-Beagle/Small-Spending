@@ -25,7 +25,18 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<PostDto> list(PageDto pageDto) {
-        return postRepository.selectList(pageDto);
+    public List<PostDto> listAll(PageDto pageDto) {
+        return postRepository.selectListAll(pageDto);
     }
+
+    @Override
+    public List<PostDto> listByNo(String authorization, PageDto pageDto) {
+        if (authorization != null) {
+            String token = authorization.split(" ")[1];
+            Integer userNo = jwtUtil.getuserNo(token);
+            pageDto.setCurrentMemberNo(userNo);
+        }
+        return postRepository.selectListByNo(pageDto);
+    }
+
 }

@@ -5,5 +5,7 @@ import java.util.List;
 public interface PostService {
     int write(String authorization, PostDto postDto);
 
-    List<PostDto> list(PageDto pageDto);
+    List<PostDto> listAll(PageDto pageDto);
+
+    List<PostDto> listByNo(String authorization, PageDto pageDto);
 }

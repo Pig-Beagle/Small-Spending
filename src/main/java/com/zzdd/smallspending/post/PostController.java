@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -32,9 +29,18 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<ApiMessage<List<PostDto>>> list(PageDto pageDto) {
-        List<PostDto> list = postService.list(pageDto);
+    public ResponseEntity<ApiMessage<List<PostDto>>> listAll(PageDto pageDto) {
+        List<PostDto> list = postService.listAll(pageDto);
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "조회하기 성공", list));
     }
+
+    @GetMapping("/list/{no}")
+    public ResponseEntity<ApiMessage<List<PostDto>>> listByNo(@PathVariable("no") int memberNo, HttpServletRequest request, PageDto pageDto) {
+        String authorization = request.getHeader("Authorization");
+        pageDto.setMemberNo(memberNo);
+        List<PostDto> list = postService.listByNo(authorization, pageDto);
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "조회하기 성공", list));
+    }
+
 
 }

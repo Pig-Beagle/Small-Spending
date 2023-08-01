@@ -11,5 +11,7 @@ public interface PostMapper {
 
     int insertPost(PostDto postDto);
 
-    List<PostDto> selectList(PageDto pageDto);
+    List<PostDto> selectListAll(PageDto pageDto);
+
+    List<PostDto> selectListByNo(PageDto pageDto);
 }
