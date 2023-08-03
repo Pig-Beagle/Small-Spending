@@ -19,21 +19,6 @@
                )
     </insert>
 
-    <select id="selectMyPage" parameterType="java.lang.Integer" resultType="MemberDto">
-        SELECT M.NO,
-               M.ID,
-               M.NICK,
-               S.NO,
-               S.AMOUNT,
-               S.CATEGORY,
-               S.CONTENT,
-               S.OPEN_YN,
-               S.WRITE_DATE
-        FROM MEMBER M
-        JOIN SPENDING S on M.NO = S.MEMBER_NO
-        WHERE M.NO = #{userNo}
-    </select>
-
     <select id="selectOneById" parameterType="String" resultType="MemberDto">
         SELECT *
         FROM MEMBER

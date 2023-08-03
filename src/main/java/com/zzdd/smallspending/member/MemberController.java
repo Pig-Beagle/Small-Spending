@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 
 @Slf4j
@@ -18,7 +17,7 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("/member")
+    @PostMapping()
     public ResponseEntity<ApiMessage<Object>> signUp(MemberDto memberDto){
 
         int result = memberService.signUp(memberDto);
@@ -29,7 +28,7 @@ public class MemberController {
 
     }
 
-    @DeleteMapping("/member")
+    @DeleteMapping()
     public ResponseEntity<ApiMessage<MemberDto>> deleteMember(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
         int result = memberService.deleteMember(authorization);
@@ -39,10 +38,10 @@ public class MemberController {
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "회원탈퇴 성공", null));
     }
 
-    @GetMapping("/myPage")
-    public ResponseEntity<ApiMessage<List<MemberDto>>> myPage(HttpServletRequest request) {
+    @GetMapping("/my_page")
+    public ResponseEntity<ApiMessage<MemberDto>> myPage(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
-        List<MemberDto> result = memberService.myPage(authorization);
+        MemberDto result = memberService.myPage(authorization);
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "마이페이지 조회 성공", result));
     }
 

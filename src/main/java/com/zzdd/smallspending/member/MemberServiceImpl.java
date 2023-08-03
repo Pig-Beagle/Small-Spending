@@ -6,8 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -46,11 +44,11 @@ public class MemberServiceImpl implements MemberService {
         return result;
     }
     @Override
-    public List<MemberDto> myPage(String authorization) {
+    public MemberDto myPage(String authorization) {
         String token = authorization.split(" ")[1];
-        Integer userNo = jwtUtil.getuserNo(token);
+        String userId = jwtUtil.getUserId(token);
 
-        return memberRepository.selectMyPage(userNo);
+        return memberRepository.selectOneById(userId);
     }
 
 
@@ -68,11 +66,7 @@ public class MemberServiceImpl implements MemberService {
 
         MemberDto selectMember = memberRepository.selectOneById(userId);
 
-        if(!passwordEncoder.matches(pwd, selectMember.getPwd())) {
-            return false;
-        }
-
-        return true;
+        return passwordEncoder.matches(pwd, selectMember.getPwd());
     }
 
 

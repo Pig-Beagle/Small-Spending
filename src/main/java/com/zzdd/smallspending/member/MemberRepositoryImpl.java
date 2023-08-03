@@ -3,8 +3,6 @@ package com.zzdd.smallspending.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 @RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepository {
@@ -19,11 +17,6 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public int deleteMember(MemberDto memberDto) {
         return memberMapper.deleteOneMember(memberDto);
-    }
-
-    @Override
-    public List<MemberDto> selectMyPage(Integer userNo) {
-        return memberMapper.selectMyPage(userNo);
     }
 
     @Override

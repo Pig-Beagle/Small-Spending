@@ -1,7 +1,5 @@
 package com.zzdd.smallspending.member;
 
-import java.util.List;
-
 public interface MemberRepository {
 
     int insertMember(MemberDto memberDto);
@@ -14,5 +12,4 @@ public interface MemberRepository {
 
     int updatePwd(Integer userNo);
 
-    List<MemberDto> selectMyPage(Integer userNo);
 }
