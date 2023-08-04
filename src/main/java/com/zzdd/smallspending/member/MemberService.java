@@ -7,13 +7,16 @@ public interface MemberService {
 
     MemberDto myPage(String authorization);
 
-    int editPwd(String authorization);
+    boolean sendMail(String userId);
+
+    boolean validateNum(String userId, String num);
+
+    int resetPwd(MemberDto memberDto);
 
     boolean validatePwd(String authorization, String pwd);
 
     boolean isIdExist(String id);
 
     boolean isNickExist(String nick);
-
 
 }

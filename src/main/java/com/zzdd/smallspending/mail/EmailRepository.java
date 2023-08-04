@@ -4,9 +4,9 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 
-public interface EmailService {
+public interface EmailRepository {
 
-    String sendEmail(String email);
+    void sendEmail(String email);
 
     MimeMessage createMessage(String email) throws MessagingException, UnsupportedEncodingException;
 

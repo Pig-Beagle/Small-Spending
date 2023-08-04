@@ -23,6 +23,7 @@
         SELECT *
         FROM MEMBER
         WHERE ID = #{value}
+        AND QUIT_YN = 'N'
     </select>
 
     <select id="selectOneByNick" parameterType="String" resultType="MemberDto">
@@ -35,5 +36,12 @@
         UPDATE MEMBER
         SET QUIT_YN = 'Y'
         WHERE ID = #{id}
+    </update>
+
+    <update id="updatePwd" parameterType="MemberDto">
+        UPDATE MEMBER
+        SET pwd = #{pwd}
+        WHERE ID = #{id}
+        AND QUIT_YN = 'N'
     </update>
 </mapper>

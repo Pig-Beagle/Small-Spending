@@ -20,10 +20,9 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public int updatePwd(Integer userNo) {
-        return 0;
+    public int updatePwd(MemberDto memberDto) {
+        return memberMapper.updatePwd(memberDto);
     }
-
 
     @Override
     public MemberDto selectOneById(String id) {

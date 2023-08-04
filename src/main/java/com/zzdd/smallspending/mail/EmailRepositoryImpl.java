@@ -4,18 +4,18 @@ import com.zzdd.smallspending.config.RedisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
-import java.util.Random;
+import java.security.SecureRandom;
 
-@Service
+@Repository
 @RequiredArgsConstructor
-public class EmailServiceImpl implements EmailService{
+public class EmailRepositoryImpl implements EmailRepository {
 
     private final JavaMailSender javaMailSender;
     private final RedisRepository redisRepository;
@@ -25,13 +25,11 @@ public class EmailServiceImpl implements EmailService{
     private String from;
 
     @Override
-    public String sendEmail(String email){
+    public void sendEmail(String email){
         MimeMessage message = createMessage(email);
         javaMailSender.send(message);
 
         redisRepository.setNumExpired(email, num, 60 * 5L);
-
-        return num;
     }
 
     @Override
@@ -58,19 +56,16 @@ public class EmailServiceImpl implements EmailService{
             mimeMessage.setText(msg, "UTF-8", "html");
             mimeMessage.setFrom(new InternetAddress(from, "Small_Spending"));
         } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return mimeMessage;
 
     }
 
-
-
-
     public static String createNum(){
 
-        Random randomNum = new Random();
+        SecureRandom randomNum = new SecureRandom();
         StringBuilder str = new StringBuilder();
 
         for (int i = 0; i < 6; i++) {

@@ -1,8 +1,8 @@
 package com.zzdd.smallspending.member;
 
+import com.zzdd.smallspending.config.RedisRepository;
 import com.zzdd.smallspending.token.JwtUtil;
 import com.zzdd.smallspending.token.RefreshToken;
-import com.zzdd.smallspending.token.RefreshTokenRepository;
 import com.zzdd.smallspending.token.TokenDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class AuthServiceImpl implements AuthService{
 
     private final MemberRepository memberRepository;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final RedisRepository redisRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
@@ -33,7 +33,7 @@ public class AuthServiceImpl implements AuthService{
             return Optional.empty();
         }
         TokenDto token = jwtUtil.generateToken(selectMember.getId(), selectMember.getNo());
-        refreshTokenRepository.save(new RefreshToken(selectMember.getId(), token.getRefreshToken()));
+        redisRepository.save(new RefreshToken(selectMember.getId(), token.getRefreshToken()));
 
         return Optional.of(token);
     }
@@ -45,14 +45,14 @@ public class AuthServiceImpl implements AuthService{
             return false;
         }
         String userId = jwtUtil.getUserId(token);
-        return refreshTokenRepository.delete(userId);
+        return redisRepository.delete(userId);
     }
 
     public TokenDto newToken(String refreshToken) {
         String userId = jwtUtil.getUserId(refreshToken);
         Integer userNo = jwtUtil.getuserNo(refreshToken);
         TokenDto newToken = jwtUtil.generateToken(userId, userNo);
-        refreshTokenRepository.save(new RefreshToken(userId, newToken.getRefreshToken()));
+        redisRepository.save(new RefreshToken(userId, newToken.getRefreshToken()));
         return newToken;
     }
 

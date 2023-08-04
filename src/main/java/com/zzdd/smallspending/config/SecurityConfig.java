@@ -3,7 +3,6 @@ package com.zzdd.smallspending.config;
 import com.zzdd.smallspending.token.JwtAuthenticationFilter;
 import com.zzdd.smallspending.token.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,12 +25,10 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
 
-
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{

@@ -1,5 +1,7 @@
 package com.zzdd.smallspending.member;
 
+import com.zzdd.smallspending.config.RedisRepository;
+import com.zzdd.smallspending.mail.EmailRepository;
 import com.zzdd.smallspending.token.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
+    private final EmailRepository emailRepository;
+    private final RedisRepository redisRepository;
     private final JwtUtil jwtUtil;
 
     @Override
@@ -53,10 +57,25 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public int editPwd(String authorization) {
+    public boolean sendMail(String userId) {
+        if(!isIdExist(userId)){
+            return false;
+        }
+        emailRepository.sendEmail(userId);
+        return true;
+    }
 
+    @Override
+    public boolean validateNum(String userId, String num) {
+        String numData = redisRepository.getNum(userId);
 
-        return 0;
+        return num.equals(numData);
+    }
+
+    @Override
+    public int resetPwd(MemberDto memberDto) {
+        memberDto.setPwd(encodePwd(memberDto.getPwd()));
+        return memberRepository.updatePwd(memberDto);
     }
 
     @Override
@@ -69,10 +88,11 @@ public class MemberServiceImpl implements MemberService {
         return passwordEncoder.matches(pwd, selectMember.getPwd());
     }
 
-
     @Override
     public boolean isIdExist(String id){
         MemberDto memberDto = memberRepository.selectOneById(id);
+        log.info("memberdto " + memberDto);
+        log.info("id " + id);
         return memberDto != null;
     }
 

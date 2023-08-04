@@ -4,12 +4,12 @@ public interface MemberRepository {
 
     int insertMember(MemberDto memberDto);
 
-    MemberDto selectOneById(String id);
-
-    MemberDto selectOneByNick(String nick);
 
     int deleteMember(MemberDto memberDto);
 
-    int updatePwd(Integer userNo);
+    int updatePwd(MemberDto memberDto);
 
+    MemberDto selectOneById(String id);
+
+    MemberDto selectOneByNick(String nick);
 }
