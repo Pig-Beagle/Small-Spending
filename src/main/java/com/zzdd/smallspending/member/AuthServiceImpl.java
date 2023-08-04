@@ -44,12 +44,12 @@ public class AuthServiceImpl implements AuthService{
         if(jwtUtil.isExpired(token)){
             return false;
         }
-        String userId = jwtUtil.getUserName(token);
+        String userId = jwtUtil.getUserId(token);
         return refreshTokenRepository.delete(userId);
     }
 
     public TokenDto newToken(String refreshToken) {
-        String userId = jwtUtil.getUserName(refreshToken);
+        String userId = jwtUtil.getUserId(refreshToken);
         Integer userNo = jwtUtil.getuserNo(refreshToken);
         TokenDto newToken = jwtUtil.generateToken(userId, userNo);
         refreshTokenRepository.save(new RefreshToken(userId, newToken.getRefreshToken()));

@@ -48,9 +48,9 @@ public class JwtUtil {
     }
 
 //    public TokenDto reissuanceToken(String refreshToken){
-//        if(!isExpired(refreshToken)){
-//            String userId = getUserName(refreshToken);
-//
+//        if(isExpired(refreshToken)){
+//            String userId = getUserId(refreshToken);
+//            Integer userNo = getuserNo(refreshToken);
 //            return generateToken(userId, userNo);
 //        }
 //        return null;

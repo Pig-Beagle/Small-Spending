@@ -31,6 +31,7 @@ dependencies {
 	implementation ("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
 	implementation ("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation ("org.springframework.boot:spring-boot-starter-mail")
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
