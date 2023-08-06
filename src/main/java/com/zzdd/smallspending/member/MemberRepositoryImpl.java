@@ -20,6 +20,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
+    public int updateIntroduce(String userId, String introduce) {
+        return memberMapper.updateIntroduce(userId, introduce);
+    }
+
+    @Override
     public int updatePwd(MemberDto memberDto) {
         return memberMapper.updatePwd(memberDto);
     }

@@ -44,6 +44,13 @@ public class MemberController {
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "마이페이지 조회 성공", result));
     }
 
+    @PatchMapping("/introduce")
+    public ResponseEntity<ApiMessage<MemberDto>> introduce(HttpServletRequest request, String introduce) {
+        String authorization = request.getHeader("Authorization");
+        memberService.introduce(authorization, introduce);
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "자기소개 작성 성공", null));
+    }
+
     @PostMapping("/validate_pwd")
     public ResponseEntity<ApiMessage<Boolean>> validatePwd(HttpServletRequest request, String pwd) {
         String authorization = request.getHeader("Authorization");

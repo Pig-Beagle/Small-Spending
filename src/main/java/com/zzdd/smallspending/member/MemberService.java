@@ -7,13 +7,15 @@ public interface MemberService {
 
     MemberDto myPage(String authorization);
 
+    int introduce(String authorization, String introduce);
+
+    boolean validatePwd(String authorization, String pwd);
+
     boolean sendMail(String userId);
 
     boolean validateNum(String userId, String num);
 
     int resetPwd(MemberDto memberDto);
-
-    boolean validatePwd(String authorization, String pwd);
 
     boolean isIdExist(String id);
 

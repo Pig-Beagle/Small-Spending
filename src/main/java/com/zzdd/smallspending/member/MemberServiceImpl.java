@@ -47,6 +47,7 @@ public class MemberServiceImpl implements MemberService {
 
         return result;
     }
+
     @Override
     public MemberDto myPage(String authorization) {
         String token = authorization.split(" ")[1];
@@ -55,27 +56,11 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.selectOneById(userId);
     }
 
-
     @Override
-    public boolean sendMail(String userId) {
-        if(!isIdExist(userId)){
-            return false;
-        }
-        emailRepository.sendEmail(userId);
-        return true;
-    }
-
-    @Override
-    public boolean validateNum(String userId, String num) {
-        String numData = redisRepository.getNum(userId);
-
-        return num.equals(numData);
-    }
-
-    @Override
-    public int resetPwd(MemberDto memberDto) {
-        memberDto.setPwd(encodePwd(memberDto.getPwd()));
-        return memberRepository.updatePwd(memberDto);
+    public int introduce(String authorization, String introduce) {
+        String token = authorization.split(" ")[1];
+        String userId = jwtUtil.getUserId(token);
+        return memberRepository.updateIntroduce(userId, introduce);
     }
 
     @Override
@@ -89,10 +74,36 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public boolean sendMail(String userId) {
+        if(!isIdExist(userId)){
+            return false;
+        }
+        emailRepository.sendEmail(userId);
+        return true;
+    }
+
+    @Override
+    public boolean validateNum(String userId, String num) {
+        String numData = redisRepository.getNum(userId);
+        boolean result = num.equals(numData);
+
+        if(!result){
+            return false;
+        }
+
+        redisRepository.deleteNum(userId);
+        return true;
+    }
+
+    @Override
+    public int resetPwd(MemberDto memberDto) {
+        memberDto.setPwd(encodePwd(memberDto.getPwd()));
+        return memberRepository.updatePwd(memberDto);
+    }
+
+    @Override
     public boolean isIdExist(String id){
         MemberDto memberDto = memberRepository.selectOneById(id);
-        log.info("memberdto " + memberDto);
-        log.info("id " + id);
         return memberDto != null;
     }
 

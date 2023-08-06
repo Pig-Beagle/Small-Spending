@@ -14,6 +14,7 @@ public class MemberDto {
     private String pwd;
     private String name;
     private String nick;
+    private String introduce;
     private LocalDateTime enrollDate;
     private String quitYN;
 

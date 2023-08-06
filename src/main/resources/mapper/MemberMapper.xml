@@ -19,6 +19,26 @@
                )
     </insert>
 
+    <update id="deleteOneMember" parameterType="MemberDto">
+        UPDATE MEMBER
+        SET QUIT_YN = 'Y'
+        WHERE ID = #{id}
+    </update>
+    
+    <update id="insertIntroduce" parameterType="MemberDto">
+        UPDATE MEMBER
+        SET INTRODUCE = #{introduce}
+        WHERE ID = #{id}
+        AND QUIT_YN = 'N'
+    </update>
+
+    <update id="updatePwd" parameterType="MemberDto">
+        UPDATE MEMBER
+        SET pwd = #{pwd}
+        WHERE ID = #{id}
+        AND QUIT_YN = 'N'
+    </update>
+
     <select id="selectOneById" parameterType="String" resultType="MemberDto">
         SELECT *
         FROM MEMBER
@@ -31,17 +51,5 @@
         FROM MEMBER
         WHERE NICK = #{value}
     </select>
-
-    <update id="deleteOneMember" parameterType="MemberDto">
-        UPDATE MEMBER
-        SET QUIT_YN = 'Y'
-        WHERE ID = #{id}
-    </update>
-
-    <update id="updatePwd" parameterType="MemberDto">
-        UPDATE MEMBER
-        SET pwd = #{pwd}
-        WHERE ID = #{id}
-        AND QUIT_YN = 'N'
-    </update>
+    
 </mapper>
