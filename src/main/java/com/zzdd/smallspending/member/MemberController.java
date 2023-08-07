@@ -18,23 +18,23 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping()
-    public ResponseEntity<ApiMessage<Object>> signUp(MemberDto memberDto){
+    public ResponseEntity<ApiMessage<Boolean>> signUp(MemberDto memberDto){
         int result = memberService.signUp(memberDto);
         if(result != 1){
-            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "회원가입 실패", null));
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "회원가입 실패", false));
         }
-        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "회원가입 성공", null));
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "회원가입 성공", true));
 
     }
 
     @DeleteMapping()
-    public ResponseEntity<ApiMessage<MemberDto>> deleteMember(HttpServletRequest request) {
+    public ResponseEntity<ApiMessage<Boolean>> deleteMember(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
         int result = memberService.deleteMember(authorization);
         if (result != 1) {
-            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "회원탈퇴 실패", null));
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "회원탈퇴 실패", false));
         }
-        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "회원탈퇴 성공", null));
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "회원탈퇴 성공", true));
     }
 
     @GetMapping("/my_page")
@@ -45,23 +45,23 @@ public class MemberController {
     }
 
     @PatchMapping("/my_page")
-    public ResponseEntity<ApiMessage<MemberDto>> editMyPage(HttpServletRequest request, String nick, String introduce) {
+    public ResponseEntity<ApiMessage<Boolean>> editMyPage(HttpServletRequest request, MemberDto memberDto) {
         String authorization = request.getHeader("Authorization");
-        int result = memberService.editMyPage(authorization, nick, introduce);
+        int result = memberService.editMyPage(authorization, memberDto);
         if(result != 1){
-            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "마이페이지 수정 실패", null));
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "마이페이지 수정 실패", false));
         }
-        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "마이페이지 수정 성공", null));
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "마이페이지 수정 성공", true));
     }
 
     @PatchMapping("/introduce")
-    public ResponseEntity<ApiMessage<MemberDto>> introduce(HttpServletRequest request, String introduce) {
+    public ResponseEntity<ApiMessage<Boolean>> introduce(HttpServletRequest request, String introduce) {
         String authorization = request.getHeader("Authorization");
         int result = memberService.introduce(authorization, introduce);
         if(result != 1){
-            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "자기소개 작성 실패", null));
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "자기소개 작성 실패", false));
         }
-        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "자기소개 작성 성공", null));
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "자기소개 작성 성공", true));
     }
 
 
@@ -91,12 +91,16 @@ public class MemberController {
     }
 
     @PatchMapping("/reset_pwd")
-    public ResponseEntity<ApiMessage<MemberDto>> resetPwd(MemberDto memberDto) {
+    public ResponseEntity<ApiMessage<Boolean>> resetPwd(String num, MemberDto memberDto) {
+        boolean validate = memberService.validateNum(memberDto.getId(), num);
+        if (!validate) {
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "인증번호 불일치", false));
+        }
         int result = memberService.resetPwd(memberDto);
         if(result != 1){
-            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "비밀번호 수정 실패", null));
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "비밀번호 수정 실패", false));
         }
-        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "비밀번호 수정 성공", null));
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "비밀번호 수정 성공", true));
     }
 
     @GetMapping("/check_id")

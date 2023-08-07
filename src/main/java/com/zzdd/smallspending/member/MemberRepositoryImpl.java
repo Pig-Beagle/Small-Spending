@@ -22,9 +22,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public int updateMyPage(String userId, String nick, String introduce) {
-        log.info("hi? ");
-        return memberMapper.updateMyPage(userId, nick, introduce);
+    public int updateMyPage(MemberDto memberDto) {
+        return memberMapper.updateMyPage(memberDto);
     }
 
     @Override

@@ -7,7 +7,7 @@ public interface MemberService {
 
     MemberDto myPage(String authorization);
 
-    int editMyPage(String authorization, String nick, String introduce);
+    int editMyPage(String authorization, MemberDto memberDto);
 
     int introduce(String authorization, String introduce);
 

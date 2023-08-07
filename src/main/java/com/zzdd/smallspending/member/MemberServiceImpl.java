@@ -61,21 +61,20 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int editMyPage(String authorization, String nick, String introduce) {
+    public int editMyPage(String authorization, MemberDto memberDto) {
         String token = authorization.split(" ")[1];
         String userId = jwtUtil.getUserId(token);
+        memberDto.setId(userId);
 
-        boolean nickExist = isNickExist(nick);
-
-        if(!nickExist){
+        if(memberDto.getNick() == null || memberDto.getNick().equals("")){
             return 0;
         }
 
-        if(nick == null || nick.equals("")){
+        if(isNickExist(memberDto.getNick())){
             return 0;
         }
 
-        return memberRepository.updateMyPage(userId, nick, introduce);
+        return memberRepository.updateMyPage(memberDto);
     }
 
     @Override
@@ -107,18 +106,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean validateNum(String userId, String num) {
         String numData = redisRepository.getNum(userId);
-        boolean result = num.equals(numData);
-
-        if(!result){
-            return false;
-        }
-
-        redisRepository.deleteNum(userId);
-        return true;
+        return num.equals(numData);
     }
 
     @Override
     public int resetPwd(MemberDto memberDto) {
+        redisRepository.deleteNum(memberDto.getId());
         memberDto.setPwd(encodePwd(memberDto.getPwd()));
         return memberRepository.updatePwd(memberDto);
     }
@@ -126,13 +119,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean isIdExist(String id){
         MemberDto memberDto = memberRepository.selectOneById(id);
-        return memberDto == null;
+        return memberDto != null;
     }
 
     @Override
     public boolean isNickExist(String nick){
         MemberDto memberDto = memberRepository.selectOneByNick(nick);
-        return memberDto == null;
+        return memberDto != null;
     }
 
     private String encodePwd(String pwd){

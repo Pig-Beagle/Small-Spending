@@ -12,7 +12,7 @@ public interface MemberMapper {
 
     int deleteOneMember(MemberDto memberDto);
 
-    int updateMyPage(@Param("id") String userId, @Param("nick") String nick, @Param("introduce") String introduce);
+    int updateMyPage(MemberDto memberDto);
 
     int updateIntroduce(@Param("id") String userId, @Param("introduce") String introduce);
 

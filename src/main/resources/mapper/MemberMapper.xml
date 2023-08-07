@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zzdd.smallspending.member.MemberMapper">
     <insert id="insertMember" parameterType="MemberDto">
-        INSERT INTO
-            MEMBER(
-                    ID,
-                    PWD,
-                    NAME,
-                    NICK
-                    )
-        VALUES (
-                #{id},
+        INSERT INTO MEMBER(ID,
+                           PWD,
+                           NAME,
+                           NICK)
+        VALUES (#{id},
                 #{pwd},
                 #{name},
-                #{nick}
-               )
+                #{nick})
     </insert>
 
     <update id="deleteOneMember" parameterType="MemberDto">
@@ -24,34 +19,34 @@
         SET QUIT_YN = 'Y'
         WHERE ID = #{id}
     </update>
-    
+
     <update id="updateMyPage" parameterType="MemberDto">
         UPDATE MEMBER
-        SET NICK = #{nick},
+        SET NICK      = #{nick},
             INTRODUCE = #{introduce}
         WHERE ID = #{id}
-        AND QUIT_YN = 'N'
+          AND QUIT_YN = 'N'
     </update>
-    
+
     <update id="insertIntroduce" parameterType="MemberDto">
         UPDATE MEMBER
         SET INTRODUCE = #{introduce}
         WHERE ID = #{id}
-        AND QUIT_YN = 'N'
+          AND QUIT_YN = 'N'
     </update>
 
     <update id="updatePwd" parameterType="MemberDto">
         UPDATE MEMBER
         SET pwd = #{pwd}
         WHERE ID = #{id}
-        AND QUIT_YN = 'N'
+          AND QUIT_YN = 'N'
     </update>
 
     <select id="selectOneById" parameterType="String" resultType="MemberDto">
         SELECT *
         FROM MEMBER
         WHERE ID = #{value}
-        AND QUIT_YN = 'N'
+          AND QUIT_YN = 'N'
     </select>
 
     <select id="selectOneByNick" parameterType="String" resultType="MemberDto">
@@ -59,5 +54,5 @@
         FROM MEMBER
         WHERE NICK = #{value}
     </select>
-    
+
 </mapper>
