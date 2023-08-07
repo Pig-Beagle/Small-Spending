@@ -9,4 +9,8 @@ public interface PostRepository {
     List<PostDto> selectListAll(PageDto pageDto);
 
     List<PostDto> selectListByNo(PageDto pageDto);
+
+    int updateUserPost(PostDto postDto);
+
+    int deletePost(PostDto postDto);
 }

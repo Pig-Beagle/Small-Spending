@@ -39,4 +39,22 @@ public class PostServiceImpl implements PostService{
         return postRepository.selectListByNo(pageDto);
     }
 
+    @Override
+    public int editUserPost(String authorization, PostDto postDto) {
+        String token = authorization.split(" ")[1];
+        Integer userNo = jwtUtil.getuserNo(token);
+        postDto.setMemberNo(userNo);
+
+        return postRepository.updateUserPost(postDto);
+    }
+
+    @Override
+    public int deleteUserPost(String authorization, PostDto postDto) {
+        String token = authorization.split(" ")[1];
+        Integer userNo = jwtUtil.getuserNo(token);
+        postDto.setMemberNo(userNo);
+
+        return postRepository.deletePost(postDto);
+    }
+
 }

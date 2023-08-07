@@ -13,5 +13,6 @@ public class PostDto {
     private int category;
     private String content;
     private String openYN;
+    private String deleteYN;
 
 }

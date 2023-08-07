@@ -18,14 +18,14 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping("/write")
-    public ResponseEntity<ApiMessage<Object>> write(HttpServletRequest request, PostDto postDto){
+    @PostMapping()
+    public ResponseEntity<ApiMessage<Boolean>> write(HttpServletRequest request, PostDto postDto){
         String authorization = request.getHeader("Authorization");
         int result = postService.write(authorization, postDto);
         if(result != 1){
-            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "작성하기 실패", null));
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "작성하기 실패", false));
         }
-        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "작성하기 성공", null));
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "작성하기 성공", true));
     }
 
     @GetMapping("/list")
@@ -40,6 +40,27 @@ public class PostController {
         pageDto.setMemberNo(memberNo);
         List<PostDto> list = postService.listByNo(authorization, pageDto);
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "조회하기 성공", list));
+    }
+
+    @PatchMapping()
+    public ResponseEntity<ApiMessage<Boolean>> editUserPost(HttpServletRequest request, PostDto postDto) {
+        String authorization = request.getHeader("Authorization");
+        int result = postService.editUserPost(authorization, postDto);
+        if(result != 1){
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "수정하기 실패", false));
+        }
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "수정하기 성공", true));
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<ApiMessage<Boolean>> deleteUserPost(HttpServletRequest request, PostDto postDto) {
+        String authorization = request.getHeader("Authorization");
+        int result = postService.deleteUserPost(authorization, postDto);
+        if(result != 1){
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "삭제 실패", false));
+        }
+
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "삭제 성공", true));
     }
 
 

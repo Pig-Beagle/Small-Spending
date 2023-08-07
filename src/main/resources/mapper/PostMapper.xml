@@ -4,35 +4,28 @@
 
 <mapper namespace="com.zzdd.smallspending.post.PostMapper">
     <insert id="insertPost" parameterType="PostDto">
-        INSERT INTO
-            SPENDING(
-                     MEMBER_NO,
-                     AMOUNT,
-                     CATEGORY,
-                     CONTENT,
-                     OPEN_YN
-                    )
-            VALUES(
-                   #{memberNo},
-                   #{amount},
-                   #{category},
-                   #{content},
-                   #{openYN}
-                  )
+        INSERT INTO SPENDING(MEMBER_NO,
+                             AMOUNT,
+                             CATEGORY,
+                             CONTENT,
+                             OPEN_YN)
+        VALUES (#{memberNo},
+                #{amount},
+                #{category},
+                #{content},
+                #{openYN})
     </insert>
     <select id="selectListAll" parameterType="PageDto" resultType="PostDto">
-        SELECT
-            NO,
-            MEMBER_NO,
-            AMOUNT,
-            CATEGORY,
-            CONTENT,
-            WRITE_DATE
+        SELECT NO,
+               MEMBER_NO,
+               AMOUNT,
+               CATEGORY,
+               CONTENT,
+               WRITE_DATE
         FROM SPENDING
         WHERE OPEN_YN = 'Y'
         ORDER BY WRITE_DATE DESC
-        LIMIT #{size}
-        OFFSET #{offset}
+        LIMIT #{size} OFFSET #{offset}
     </select>
 
     <select id="selectListByNo" parameterType="PageDto" resultType="PostDto">
@@ -52,4 +45,21 @@
         LIMIT #{size}
         OFFSET #{offset}
     </select>
+
+    <update id="updateUserPost" parameterType="PostDto">
+        UPDATE SPENDING
+        SET AMOUNT   = #{amount},
+            CATEGORY = #{category},
+            CONTENT  = #{content},
+            OPEN_YN  = #{openYN}
+        WHERE NO = #{no}
+          AND MEMBER_NO = #{memberNo}
+    </update>
+
+    <delete id="deletePost" parameterType="PostDto">
+        UPDATE SPENDING
+        SET DELETE_YN = 'Y'
+        WHERE NO = #{no}
+        AND MEMBER_NO = #{memberNo}
+    </delete>
 </mapper>

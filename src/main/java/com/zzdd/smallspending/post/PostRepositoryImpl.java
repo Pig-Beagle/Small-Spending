@@ -27,4 +27,14 @@ public class PostRepositoryImpl implements PostRepository{
     public List<PostDto> selectListByNo(PageDto pageDto) {
         return postMapper.selectListByNo(pageDto);
     }
+
+    @Override
+    public int updateUserPost(PostDto postDto) {
+        return postMapper.updateUserPost(postDto);
+    }
+
+    @Override
+    public int deletePost(PostDto postDto) {
+        return postMapper.deletePost(postDto);
+    }
 }
