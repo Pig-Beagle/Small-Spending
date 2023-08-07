@@ -44,23 +44,34 @@ public class MemberController {
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "마이페이지 조회 성공", result));
     }
 
+    @PatchMapping("/my_page")
+    public ResponseEntity<ApiMessage<MemberDto>> editMyPage(HttpServletRequest request, String nick, String introduce) {
+        String authorization = request.getHeader("Authorization");
+        int result = memberService.editMyPage(authorization, nick, introduce);
+        if(result != 1){
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "마이페이지 수정 실패", null));
+        }
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "마이페이지 수정 성공", null));
+    }
+
     @PatchMapping("/introduce")
     public ResponseEntity<ApiMessage<MemberDto>> introduce(HttpServletRequest request, String introduce) {
         String authorization = request.getHeader("Authorization");
-        memberService.introduce(authorization, introduce);
+        int result = memberService.introduce(authorization, introduce);
+        if(result != 1){
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "자기소개 작성 실패", null));
+        }
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "자기소개 작성 성공", null));
     }
+
 
     @PostMapping("/validate_pwd")
     public ResponseEntity<ApiMessage<Boolean>> validatePwd(HttpServletRequest request, String pwd) {
         String authorization = request.getHeader("Authorization");
-
         boolean result = memberService.validatePwd(authorization, pwd);
-
         if(!result){
             return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "비밀번호 불일치", result));
         }
-
         return ResponseEntity.ok().body(new ApiMessage<>(HttpStatus.OK, "비밀번호 일치", result));
     }
 

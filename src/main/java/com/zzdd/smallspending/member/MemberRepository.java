@@ -6,6 +6,8 @@ public interface MemberRepository {
 
     int deleteMember(MemberDto memberDto);
 
+    int updateMyPage(String userId, String nick, String introduce);
+
     int updateIntroduce(String userId, String introduce);
 
     int updatePwd(MemberDto memberDto);

@@ -7,6 +7,8 @@ public interface MemberService {
 
     MemberDto myPage(String authorization);
 
+    int editMyPage(String authorization, String nick, String introduce);
+
     int introduce(String authorization, String introduce);
 
     boolean validatePwd(String authorization, String pwd);

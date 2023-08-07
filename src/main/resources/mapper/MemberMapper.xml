@@ -25,6 +25,14 @@
         WHERE ID = #{id}
     </update>
     
+    <update id="updateMyPage" parameterType="MemberDto">
+        UPDATE MEMBER
+        SET NICK = #{nick},
+            INTRODUCE = #{introduce}
+        WHERE ID = #{id}
+        AND QUIT_YN = 'N'
+    </update>
+    
     <update id="insertIntroduce" parameterType="MemberDto">
         UPDATE MEMBER
         SET INTRODUCE = #{introduce}

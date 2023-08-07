@@ -27,6 +27,10 @@ public class MemberServiceImpl implements MemberService {
             return 0;
         }
 
+        if (isNickExist(memberDto.getNick())) {
+            return 0;
+        }
+
         memberDto.setPwd(encodePwd(memberDto.getPwd()));
 
         return memberRepository.insertMember(memberDto);
@@ -54,6 +58,24 @@ public class MemberServiceImpl implements MemberService {
         String userId = jwtUtil.getUserId(token);
 
         return memberRepository.selectOneById(userId);
+    }
+
+    @Override
+    public int editMyPage(String authorization, String nick, String introduce) {
+        String token = authorization.split(" ")[1];
+        String userId = jwtUtil.getUserId(token);
+
+        boolean nickExist = isNickExist(nick);
+
+        if(!nickExist){
+            return 0;
+        }
+
+        if(nick == null || nick.equals("")){
+            return 0;
+        }
+
+        return memberRepository.updateMyPage(userId, nick, introduce);
     }
 
     @Override
@@ -104,13 +126,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean isIdExist(String id){
         MemberDto memberDto = memberRepository.selectOneById(id);
-        return memberDto != null;
+        return memberDto == null;
     }
 
     @Override
     public boolean isNickExist(String nick){
         MemberDto memberDto = memberRepository.selectOneByNick(nick);
-        return memberDto != null;
+        return memberDto == null;
     }
 
     private String encodePwd(String pwd){

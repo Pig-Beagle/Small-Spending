@@ -1,10 +1,12 @@
 package com.zzdd.smallspending.member;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class MemberRepositoryImpl implements MemberRepository {
 
     private final MemberMapper memberMapper;
@@ -17,6 +19,12 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public int deleteMember(MemberDto memberDto) {
         return memberMapper.deleteOneMember(memberDto);
+    }
+
+    @Override
+    public int updateMyPage(String userId, String nick, String introduce) {
+        log.info("hi? ");
+        return memberMapper.updateMyPage(userId, nick, introduce);
     }
 
     @Override
