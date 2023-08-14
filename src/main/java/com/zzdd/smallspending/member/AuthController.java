@@ -38,7 +38,7 @@ public class AuthController {
         return ResponseEntity.ok().body(new ApiMessage<>(HttpStatus.OK, "로그아웃 성공", true));
     }
 
-    @PostMapping("/get_refreshToken")
+    @PostMapping("/get_token")
     public ResponseEntity<ApiMessage<TokenDto>> newToken(String refreshToken) {
         TokenDto newToken = authService.newToken(refreshToken);
         return ResponseEntity.ok().body(new ApiMessage<>(HttpStatus.OK, "리프레시 토큰 발급 성공", newToken));
