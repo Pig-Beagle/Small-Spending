@@ -37,4 +37,9 @@ public class PostRepositoryImpl implements PostRepository{
     public int deletePost(PostDto postDto) {
         return postMapper.deletePost(postDto);
     }
+
+    @Override
+    public  List<StatisticsDto> selectStatistics(StatisticsRequestDto statisticsRequestDto) {
+        return postMapper.selectStatistics(statisticsRequestDto);
+    }
 }

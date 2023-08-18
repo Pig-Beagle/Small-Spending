@@ -57,4 +57,13 @@ public class PostServiceImpl implements PostService{
         return postRepository.deletePost(postDto);
     }
 
+    @Override
+    public List<StatisticsDto> userStatistics(String authorization, StatisticsRequestDto statisticsRequestDto) {
+        String token = authorization.split(" ")[1];
+        Integer userNo = jwtUtil.getuserNo(token);
+        statisticsRequestDto.setMemberNo(userNo);
+
+        return postRepository.selectStatistics(statisticsRequestDto);
+    }
+
 }

@@ -12,4 +12,6 @@ public interface PostService {
     int editUserPost(String authorization, PostDto postDto);
 
     int deleteUserPost(String authorization, PostDto postDto);
+
+    List<StatisticsDto> userStatistics(String authorization, StatisticsRequestDto statisticsRequestDto);
 }

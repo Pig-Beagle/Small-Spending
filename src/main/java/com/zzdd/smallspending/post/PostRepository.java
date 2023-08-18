@@ -13,4 +13,6 @@ public interface PostRepository {
     int updateUserPost(PostDto postDto);
 
     int deletePost(PostDto postDto);
+
+    List<StatisticsDto> selectStatistics(StatisticsRequestDto statisticsRequestDto);
 }

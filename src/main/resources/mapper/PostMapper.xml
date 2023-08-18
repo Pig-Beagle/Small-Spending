@@ -62,4 +62,14 @@
         WHERE NO = #{no}
         AND MEMBER_NO = #{memberNo}
     </delete>
+    
+    <select id="selectStatistics" parameterType="StatisticsRequestDto" resultType="StatisticsDto">
+        SELECT SUM(AMOUNT) AS AMOUNT,
+               CATEGORY,
+               DATE_FORMAT(WRITE_DATE, '%Y-%m') AS DATE
+        FROM SPENDING
+        WHERE MEMBER_NO = #{memberNo}
+        AND DATE_FORMAT(WRITE_DATE, '%Y-%m') = #{date}
+        GROUP BY DATE, CATEGORY;
+    </select>
 </mapper>
