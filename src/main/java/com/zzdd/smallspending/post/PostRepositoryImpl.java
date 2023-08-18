@@ -2,6 +2,7 @@ package com.zzdd.smallspending.post;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -41,5 +42,29 @@ public class PostRepositoryImpl implements PostRepository{
     @Override
     public  List<StatisticsDto> selectStatistics(StatisticsRequestDto statisticsRequestDto) {
         return postMapper.selectStatistics(statisticsRequestDto);
+    }
+
+    @Override
+    public int insertReaction(ReactionDto reactionDto) {
+        try {
+            return postMapper.insertReaction(reactionDto);
+        } catch (DataIntegrityViolationException e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public int upsertReactionCnt(ReactionDto reactionDto) {
+        return postMapper.upsertReactionCnt(reactionDto);
+    }
+
+    @Override
+    public int deleteReaction(ReactionDto reactionDto) {
+        return postMapper.deleteReaction(reactionDto);
+    }
+
+    @Override
+    public int decreaseReactionCnt(ReactionDto reactionDto) {
+        return postMapper.decreaseReactionCnt(reactionDto);
     }
 }

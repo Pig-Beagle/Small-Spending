@@ -66,4 +66,34 @@ public class PostServiceImpl implements PostService{
         return postRepository.selectStatistics(statisticsRequestDto);
     }
 
+    @Override
+    public int addReaction(String authorization, ReactionDto reactionDto) {
+        String token = authorization.split(" ")[1];
+        Integer userNo = jwtUtil.getuserNo(token);
+        reactionDto.setMemberNo(userNo);
+
+        int result = 0;
+        result = postRepository.insertReaction(reactionDto);
+        if(result == 0) {
+            return 0;
+        }
+        result = postRepository.upsertReactionCnt(reactionDto);
+
+        return result;
+    }
+
+    @Override
+    public int deleteReaction(String authorization, ReactionDto reactionDto) {
+        String token = authorization.split(" ")[1];
+        Integer userNo = jwtUtil.getuserNo(token);
+        reactionDto.setMemberNo(userNo);
+
+        int result = postRepository.deleteReaction(reactionDto);
+        if(result == 0) {
+            return 0;
+        }
+        postRepository.decreaseReactionCnt(reactionDto);
+        return result;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.zzdd.smallspending.post;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
 
@@ -20,4 +21,12 @@ public interface PostMapper {
     int deletePost(PostDto postDto);
 
     List<StatisticsDto> selectStatistics(StatisticsRequestDto statisticsRequestDto);
+
+    int insertReaction(ReactionDto reactionDto) throws DataIntegrityViolationException;
+
+    int upsertReactionCnt(ReactionDto reactionDto);
+
+    int deleteReaction(ReactionDto reactionDto);
+
+    int decreaseReactionCnt(ReactionDto reactionDto);
 }

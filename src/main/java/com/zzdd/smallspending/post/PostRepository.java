@@ -15,4 +15,12 @@ public interface PostRepository {
     int deletePost(PostDto postDto);
 
     List<StatisticsDto> selectStatistics(StatisticsRequestDto statisticsRequestDto);
+
+    int insertReaction(ReactionDto reactionDto);
+
+    int upsertReactionCnt(ReactionDto reactionDto);
+
+    int deleteReaction(ReactionDto reactionDto);
+
+    int decreaseReactionCnt(ReactionDto reactionDto);
 }

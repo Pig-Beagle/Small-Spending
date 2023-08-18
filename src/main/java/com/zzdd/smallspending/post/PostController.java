@@ -63,7 +63,7 @@ public class PostController {
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "삭제 성공", true));
     }
 
-    @GetMapping("statistics")
+    @GetMapping("/statistics")
     public ResponseEntity<ApiMessage<List<StatisticsDto>>> userStatistics(HttpServletRequest request, StatisticsRequestDto statisticsRequestDto) {
         String authorization = request.getHeader("Authorization");
         List<StatisticsDto> list = postService.userStatistics(authorization, statisticsRequestDto);
@@ -74,6 +74,27 @@ public class PostController {
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "조회 성공", list));
     }
 
+    @PostMapping("/reaction")
+    public ResponseEntity<ApiMessage<Boolean>> addReaction(HttpServletRequest request, ReactionDto reactionDto) {
+        String authorization = request.getHeader("Authorization");
+        int result = postService.addReaction(authorization, reactionDto);
+        if (result != 1) {
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "좋아요 실패", false));
+        }
+
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "좋아요 성공", true));
+    }
+
+    @DeleteMapping("/reaction")
+    public ResponseEntity<ApiMessage<Boolean>> deleteReaction(HttpServletRequest request, ReactionDto reactionDto) {
+        String authorization = request.getHeader("Authorization");
+        int result = postService.deleteReaction(authorization, reactionDto);
+        if (result != 1) {
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "좋아요 취소 실패", false));
+        }
+
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "좋아요 취소 성공", true));
+    }
 
 
 

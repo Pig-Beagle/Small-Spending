@@ -72,4 +72,38 @@
         AND DATE_FORMAT(WRITE_DATE, '%Y-%m') = #{date}
         GROUP BY DATE, CATEGORY;
     </select>
+
+    <insert id="insertReaction" parameterType="ReactionDto">
+        INSERT INTO REACTION(MEMBER_NO,
+                             SPENDING_NO,
+                             REACTION_CATEGORY)
+        VALUES (#{memberNo},
+                #{postNo},
+                #{reaction})
+    </insert>
+
+    <insert id="upsertReactionCnt" parameterType="ReactionDto">
+        INSERT INTO REACTION_CNT(SPENDING_NO,
+                                 REACTION_CATEGORY,
+                                 COUNT)
+        VALUES (#{postNo},
+                #{reaction},
+                1)
+        ON DUPLICATE KEY UPDATE COUNT = COUNT + 1
+    </insert>
+
+    <delete id="deleteReaction" parameterType="ReactionDto">
+        DELETE FROM REACTION
+        WHERE MEMBER_NO = #{memberNo}
+          AND SPENDING_NO = #{postNo}
+          AND REACTION_CATEGORY = #{reaction}
+    </delete>
+
+    <update id="decreaseReactionCnt" parameterType="ReactionDto">
+        UPDATE REACTION_CNT
+        SET COUNT = COUNT - 1
+        WHERE SPENDING_NO = #{postNo}
+          AND REACTION_CATEGORY = #{reaction}
+    </update>
+
 </mapper>
