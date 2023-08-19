@@ -32,7 +32,7 @@ public class ChatController {
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "채팅 조회 성공", chatRoom));
     }
 
-    @MessageMapping("pub/chat/room/{postNo}")
+    @MessageMapping("/pub/chat/room/{postNo}")
     @SendTo("/sub/chat/room/{postNo}")
     public ChatDto message(@DestinationVariable("postNo") int postNo, ChatDto chatDto) {
         chatService.saveMessage(postNo, chatDto);

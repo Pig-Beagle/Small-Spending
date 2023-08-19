@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 public class ChatServiceImpl implements ChatService{
 
     private final ChatRepository chatRepository;
+    private final MongoDBRepository mongoDBRepository;
 
     @Override
     public ChatRoom findByRoomNo(int postNo) {
@@ -21,6 +22,7 @@ public class ChatServiceImpl implements ChatService{
 
     @Override
     public void saveMessage(int postNo, ChatDto chatDto) {
-        chatRepository.saveMessage(postNo, chatDto);
+        chatDto.setRoomNo(postNo);
+        mongoDBRepository.save(chatDto);
     }
 }
