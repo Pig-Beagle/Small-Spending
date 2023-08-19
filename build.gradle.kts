@@ -31,6 +31,8 @@ dependencies {
 	implementation ("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
 	implementation ("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation ("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+	implementation ("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation ("org.springframework.boot:spring-boot-starter-mail")
 	implementation ("org.springframework.boot:spring-boot-starter-websocket")
 	implementation ("org.springframework.boot:spring-boot-starter-validation")
