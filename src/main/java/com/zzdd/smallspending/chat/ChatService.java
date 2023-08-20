@@ -1,8 +1,16 @@
 package com.zzdd.smallspending.chat;
 
+import org.springframework.data.domain.Page;
+
 public interface ChatService {
 
-    ChatRoom findByRoomNo(int postNo);
+    Page<ChatDto> findByRoomNo(int postNo, int page);
+
     void createChatRoom(int postNo);
-    void saveMessage(int postNo, ChatDto chatDto);
+
+    ChatDto saveMessage(int postNo, ChatDto chatDto);
+
+    ChatDto updateChat(String authorization, ChatDto chatDto);
+
+    int deleteChat(String authorization, ChatDto chatDto);
 }
