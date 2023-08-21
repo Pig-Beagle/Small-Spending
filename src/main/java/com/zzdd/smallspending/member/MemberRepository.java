@@ -8,12 +8,13 @@ public interface MemberRepository {
 
     int updateMyPage(MemberDto memberDto);
 
-    int updateIntroduce(String userId, String introduce);
+    int updateIntroduce(int userNo, String introduce);
 
     int updatePwd(MemberDto memberDto);
 
-    MemberDto selectOneById(String id);
+    MemberDto selectOneByNo(int userNo);
 
     MemberDto selectOneByNick(String nick);
 
+    MemberDto selectOneById(String id);
 }

@@ -32,27 +32,38 @@ public class AuthServiceImpl implements AuthService{
         if(!passwordEncoder.matches(memberDto.getPwd(), selectMember.getPwd())){
             return Optional.empty();
         }
-        TokenDto token = jwtUtil.generateToken(selectMember.getId(), selectMember.getNo());
-        redisRepository.save(new RefreshToken(selectMember.getId(), token.getRefreshToken()));
+        TokenDto token = jwtUtil.generateToken(selectMember.getNo());
+        redisRepository.save(new RefreshToken(selectMember.getNo(), token.getRefreshToken()));
 
         return Optional.of(token);
     }
 
     @Override
-    public boolean logout(String authorization) {
-        String token = authorization.split(" ")[1];
-        if(jwtUtil.isExpired(token)){
-            return false;
-        }
-        String userId = jwtUtil.getUserId(token);
-        return redisRepository.delete(userId);
+    public boolean logout(String refreshToken) {
+        return redisRepository.delete(refreshToken);
     }
 
-    public TokenDto newToken(String refreshToken) {
-        String userId = jwtUtil.getUserId(refreshToken);
-        Integer userNo = jwtUtil.getuserNo(refreshToken);
-        TokenDto newToken = jwtUtil.generateToken(userId, userNo);
-        redisRepository.save(new RefreshToken(userId, newToken.getRefreshToken()));
+    public TokenDto newToken(String authorization, String refreshToken) {
+        String token = authorization.split(" ")[1];
+        if(!jwtUtil.isExpired(token)){
+            return null;
+        }
+        if(jwtUtil.isExpired(refreshToken)){
+            return null;
+        }
+
+        Optional<RefreshToken> redisToken = redisRepository.findById(refreshToken);
+
+        if(redisToken.isEmpty()){
+            return null;
+        }
+        if(!redisToken.get().getRefreshToken().equals(refreshToken)){
+            return null;
+        }
+
+        int userNo = redisToken.get().getUserNo();
+        TokenDto newToken = jwtUtil.generateToken(userNo);
+        redisRepository.save(new RefreshToken(userNo, newToken.getRefreshToken()));
         return newToken;
     }
 

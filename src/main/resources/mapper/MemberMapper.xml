@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zzdd.smallspending.member.MemberMapper">
-    <insert id="insertMember" parameterType="MemberDto">
+    <insert id="insertMember" parameterType="MemberRequestDto.SignUp">
         INSERT INTO MEMBER(ID,
                            PWD,
                            NAME,
@@ -14,31 +14,31 @@
                 #{nick})
     </insert>
 
-    <update id="deleteOneMember" parameterType="MemberDto">
+    <update id="deleteOneMember" parameterType="MemberRequestDto">
         UPDATE MEMBER
         SET QUIT_YN = 'Y'
-        WHERE ID = #{id}
+        WHERE NO = #{no}
     </update>
 
-    <update id="updateMyPage" parameterType="MemberDto">
+    <update id="updateMyPage" parameterType="MemberRequestDto">
         UPDATE MEMBER
         SET NICK      = #{nick},
             INTRODUCE = #{introduce}
-        WHERE ID = #{id}
+        WHERE NO = #{no}
           AND QUIT_YN = 'N'
     </update>
 
-    <update id="insertIntroduce" parameterType="MemberDto">
+    <update id="insertIntroduce" parameterType="MemberRequestDto">
         UPDATE MEMBER
         SET INTRODUCE = #{introduce}
-        WHERE ID = #{id}
+        WHERE NO = #{no}
           AND QUIT_YN = 'N'
     </update>
 
-    <update id="updatePwd" parameterType="MemberDto">
+    <update id="updatePwd" parameterType="MemberRequestDto">
         UPDATE MEMBER
         SET pwd = #{pwd}
-        WHERE ID = #{id}
+        WHERE NO = #{no}
           AND QUIT_YN = 'N'
     </update>
 
@@ -53,6 +53,13 @@
         SELECT *
         FROM MEMBER
         WHERE NICK = #{value}
+    </select>
+
+    <select id="selectOneByNo" parameterType="int" resultType="MemberDto">
+        SELECT *
+        FROM MEMBER
+        WHERE NO = #{value}
+          AND QUIT_YN = 'N'
     </select>
 
 </mapper>

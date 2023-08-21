@@ -27,13 +27,18 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public int updateIntroduce(String userId, String introduce) {
-        return memberMapper.updateIntroduce(userId, introduce);
+    public int updateIntroduce(int userNo, String introduce) {
+        return memberMapper.updateIntroduce(userNo, introduce);
     }
 
     @Override
     public int updatePwd(MemberDto memberDto) {
         return memberMapper.updatePwd(memberDto);
+    }
+
+    @Override
+    public MemberDto selectOneByNo(int userNo) {
+        return memberMapper.selectOneByNo(userNo);
     }
 
     @Override

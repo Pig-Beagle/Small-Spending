@@ -30,8 +30,8 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<ApiMessage<Boolean>> logout(HttpServletRequest request) {
-        String authorization = request.getHeader("Authorization");
-        boolean result = authService.logout(authorization);
+        String refreshToken = request.getHeader("refreshToken");
+        boolean result = authService.logout(refreshToken);
         if(!result){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiMessage<>(HttpStatus.FORBIDDEN, "로그아웃 실패", false));
         }
@@ -39,8 +39,13 @@ public class AuthController {
     }
 
     @PostMapping("/get_token")
-    public ResponseEntity<ApiMessage<TokenDto>> newToken(String refreshToken) {
-        TokenDto newToken = authService.newToken(refreshToken);
+    public ResponseEntity<ApiMessage<TokenDto>> newToken(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        String refreshToken = request.getHeader("refreshToken");
+        TokenDto newToken = authService.newToken(authorization, refreshToken);
+        if(newToken == null){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiMessage<>(HttpStatus.FORBIDDEN, "리프레시 토큰 발급 실패", null));
+        }
         return ResponseEntity.ok().body(new ApiMessage<>(HttpStatus.OK, "리프레시 토큰 발급 성공", newToken));
     }
 

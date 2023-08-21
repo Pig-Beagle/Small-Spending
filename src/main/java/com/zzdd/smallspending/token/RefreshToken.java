@@ -4,11 +4,11 @@ import lombok.Getter;
 
 @Getter
 public class RefreshToken {
-    private final String memberId;
+    private final int userNo;
     private final String refreshToken;
 
-    public RefreshToken(String memberId, String refreshToken) {
-        this.memberId = memberId;
+    public RefreshToken(int userNo, String refreshToken) {
+        this.userNo = userNo;
         this.refreshToken = refreshToken;
     }
 }

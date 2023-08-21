@@ -39,8 +39,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int deleteMember(String authorization) {
         String token = authorization.split(" ")[1];
-        String userId = jwtUtil.getUserId(token);
-        MemberDto member = memberRepository.selectOneById(userId);
+        Integer userNo = jwtUtil.getuserNo(token);
+        MemberDto member = memberRepository.selectOneByNo(userNo);
 
         if(member == null){
             return 0;
@@ -55,16 +55,16 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDto myPage(String authorization) {
         String token = authorization.split(" ")[1];
-        String userId = jwtUtil.getUserId(token);
+        Integer userNo = jwtUtil.getuserNo(token);
 
-        return memberRepository.selectOneById(userId);
+        return memberRepository.selectOneByNo(userNo);
     }
 
     @Override
     public int editMyPage(String authorization, MemberDto memberDto) {
         String token = authorization.split(" ")[1];
-        String userId = jwtUtil.getUserId(token);
-        memberDto.setId(userId);
+        Integer userNo = jwtUtil.getuserNo(token);
+        memberDto.setNo(userNo);
 
         if(memberDto.getNick() == null || memberDto.getNick().equals("")){
             return 0;
@@ -80,16 +80,16 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int introduce(String authorization, String introduce) {
         String token = authorization.split(" ")[1];
-        String userId = jwtUtil.getUserId(token);
-        return memberRepository.updateIntroduce(userId, introduce);
+        Integer userNo = jwtUtil.getuserNo(token);
+        return memberRepository.updateIntroduce(userNo, introduce);
     }
 
     @Override
     public boolean validatePwd(String authorization, String pwd) {
         String token = authorization.split(" ")[1];
-        String userId = jwtUtil.getUserId(token);
+        Integer userNo = jwtUtil.getuserNo(token);
 
-        MemberDto selectMember = memberRepository.selectOneById(userId);
+        MemberDto selectMember = memberRepository.selectOneByNo(userNo);
 
         return passwordEncoder.matches(pwd, selectMember.getPwd());
     }

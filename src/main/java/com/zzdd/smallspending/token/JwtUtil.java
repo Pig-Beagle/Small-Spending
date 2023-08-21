@@ -24,10 +24,9 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDto generateToken(String userId, int userNo) {
-        long expiredTime = 1000 * 60 * 10L;
+    public TokenDto generateToken(int userNo) {
+        long expiredTime = 1000L;
         String accessToken = Jwts.builder()
-                .claim("userId", userId)
                 .claim("userNo", userNo)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiredTime))
@@ -50,7 +49,7 @@ public class JwtUtil {
     public boolean isExpired(String token) {
         try {
             return Jwts.parserBuilder()
-                    .setSigningKey(getSigninKey())
+                    .setSigningKey(secretKey.getBytes())
                     .build()
                     .parseClaimsJws(token)
                     .getBody()
@@ -61,18 +60,9 @@ public class JwtUtil {
         }
     }
 
-    public String getUserId(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigninKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get("userId", String.class);
-    }
-
     public Integer getuserNo(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSigninKey())
+                .setSigningKey(secretKey.getBytes())
                 .build()
                 .parseClaimsJws(token)
                 .getBody()

@@ -18,31 +18,31 @@ public class RedisRepository {
     private final RedisTemplate<String, String> redisTemplate;
 
     public void save(RefreshToken refreshToken) {
-        String key = "token_" + refreshToken.getMemberId();
         // redisDB에 저장
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(key, refreshToken.getRefreshToken());
+        valueOperations.set(refreshToken.getRefreshToken(), String.valueOf(refreshToken.getUserNo()));
         redisTemplate.expire(refreshToken.getRefreshToken(), 1209600000L, TimeUnit.MICROSECONDS);
     }
 
-    public boolean delete(String memberId){
-        String key = "token_" + memberId;
-        if(redisTemplate.opsForValue().get(key) == null){
+    public boolean delete(String refreshToken){
+        if(redisTemplate.opsForValue().get(refreshToken) == null){
             return false;
         }
-        return Boolean.TRUE.equals(redisTemplate.delete("token_" + memberId));
+        return Boolean.TRUE.equals(redisTemplate.delete(refreshToken));
     }
 
     public Optional<RefreshToken> findById(String refreshToken) {
         // redisDB에서 RefreshToken 검색
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        String memberId = valueOperations.get(refreshToken);
+        String value = valueOperations.get(refreshToken);
 
-        if (Objects.isNull(memberId)) {
+        if (Objects.isNull(value)) {
             return Optional.empty();
         }
 
-        return Optional.of(new RefreshToken(refreshToken, memberId));
+        int userNo = Integer.parseInt(value);
+
+        return Optional.of(new RefreshToken(userNo, refreshToken));
     }
 
     public String getNum(String key){

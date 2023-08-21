@@ -14,7 +14,7 @@ public interface MemberMapper {
 
     int updateMyPage(MemberDto memberDto);
 
-    int updateIntroduce(@Param("id") String userId, @Param("introduce") String introduce);
+    int updateIntroduce(@Param("no") int userNo, @Param("introduce") String introduce);
 
     int updatePwd(MemberDto memberDto);
 
@@ -22,4 +22,5 @@ public interface MemberMapper {
 
     MemberDto selectOneByNick(String nick);
 
+    MemberDto selectOneByNo(int userNo);
 }
