@@ -10,23 +10,23 @@ import java.util.List;
 @MapperScan
 public interface PostMapper {
 
-    int insertPost(PostDto postDto);
+    int insertPost(PostRequestDto.Post postDto);
 
-    List<PostDto> selectListAll(PageDto pageDto);
+    List<PostResponseDto.Post> selectListAll(PostRequestDto.Page pageDto);
 
-    List<PostDto> selectListByNo(PageDto pageDto);
+    List<PostResponseDto.Post> selectListByNo(PostRequestDto.Page pageDto);
 
-    int updateUserPost(PostDto postDto);
+    int updateUserPost(PostRequestDto.Post postDto);
 
-    int deletePost(PostDto postDto);
+    int deletePost(PostRequestDto.Delete postDto);
 
-    List<StatisticsDto> selectStatistics(StatisticsRequestDto statisticsRequestDto);
+    List<PostResponseDto.Statistics> selectStatistics(PostRequestDto.Statistics statistics);
 
-    int insertReaction(ReactionDto reactionDto) throws DataIntegrityViolationException;
+    int insertReaction(PostRequestDto.Reaction reactionDto) throws DataIntegrityViolationException;
 
-    int upsertReactionCnt(ReactionDto reactionDto);
+    int upsertReactionCnt(PostRequestDto.Reaction reactionDto);
 
-    int deleteReaction(ReactionDto reactionDto);
+    int deleteReaction(PostRequestDto.Reaction reactionDto);
 
-    int decreaseReactionCnt(ReactionDto reactionDto);
+    int decreaseReactionCnt(PostRequestDto.Reaction reactionDto);
 }

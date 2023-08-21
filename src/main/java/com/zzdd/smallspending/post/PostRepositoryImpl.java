@@ -15,37 +15,37 @@ public class PostRepositoryImpl implements PostRepository{
     private final PostMapper postMapper;
 
     @Override
-    public int insertPost(PostDto postDto) {
+    public int insertPost(PostRequestDto.Post postDto) {
         return postMapper.insertPost(postDto);
     }
 
     @Override
-    public List<PostDto> selectListAll(PageDto pageDto) {
+    public List<PostResponseDto.Post> selectListAll(PostRequestDto.Page pageDto) {
         return postMapper.selectListAll(pageDto);
     }
 
     @Override
-    public List<PostDto> selectListByNo(PageDto pageDto) {
+    public List<PostResponseDto.Post> selectListByNo(PostRequestDto.Page pageDto) {
         return postMapper.selectListByNo(pageDto);
     }
 
     @Override
-    public int updateUserPost(PostDto postDto) {
+    public int updateUserPost(PostRequestDto.Post postDto) {
         return postMapper.updateUserPost(postDto);
     }
 
     @Override
-    public int deletePost(PostDto postDto) {
+    public int deletePost(PostRequestDto.Delete postDto) {
         return postMapper.deletePost(postDto);
     }
 
     @Override
-    public  List<StatisticsDto> selectStatistics(StatisticsRequestDto statisticsRequestDto) {
-        return postMapper.selectStatistics(statisticsRequestDto);
+    public List<PostResponseDto.Statistics> selectStatistics(PostRequestDto.Statistics statistics) {
+        return postMapper.selectStatistics(statistics);
     }
 
     @Override
-    public int insertReaction(ReactionDto reactionDto) {
+    public int insertReaction(PostRequestDto.Reaction reactionDto) {
         try {
             return postMapper.insertReaction(reactionDto);
         } catch (DataIntegrityViolationException e) {
@@ -54,17 +54,17 @@ public class PostRepositoryImpl implements PostRepository{
     }
 
     @Override
-    public int upsertReactionCnt(ReactionDto reactionDto) {
+    public int upsertReactionCnt(PostRequestDto.Reaction reactionDto) {
         return postMapper.upsertReactionCnt(reactionDto);
     }
 
     @Override
-    public int deleteReaction(ReactionDto reactionDto) {
+    public int deleteReaction(PostRequestDto.Reaction reactionDto) {
         return postMapper.deleteReaction(reactionDto);
     }
 
     @Override
-    public int decreaseReactionCnt(ReactionDto reactionDto) {
+    public int decreaseReactionCnt(PostRequestDto.Reaction reactionDto) {
         return postMapper.decreaseReactionCnt(reactionDto);
     }
 }

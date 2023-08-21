@@ -21,7 +21,7 @@ public class MemberServiceImpl implements MemberService {
     private final JwtUtil jwtUtil;
 
     @Override
-    public int signUp(MemberDto memberDto) {
+    public int signUp(MemberRequestDto.SignUp memberDto) {
 
         if(isIdExist(memberDto.getId())){
             return 0;
@@ -40,12 +40,12 @@ public class MemberServiceImpl implements MemberService {
     public int deleteMember(String authorization) {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
-        MemberDto member = memberRepository.selectOneByNo(userNo);
+        MemberResponseDto.Member member = memberRepository.selectOneByNo(userNo);
 
         if(member == null){
             return 0;
         }
-        int result = memberRepository.deleteMember(member);
+        int result = memberRepository.deleteMember(member.getNo());
 
         authService.logout(authorization);
 
@@ -53,7 +53,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDto myPage(String authorization) {
+
+    public MemberResponseDto.Member myPage(String authorization) {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
 
@@ -61,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int editMyPage(String authorization, MemberDto memberDto) {
+    public int editNick(String authorization, MemberRequestDto.EditNick memberDto) {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
         memberDto.setNo(userNo);
@@ -74,14 +75,15 @@ public class MemberServiceImpl implements MemberService {
             return 0;
         }
 
-        return memberRepository.updateMyPage(memberDto);
+        return memberRepository.updateNick(memberDto);
     }
 
     @Override
-    public int introduce(String authorization, String introduce) {
+    public int editItroduce(String authorization, MemberRequestDto.EditIntroduce memberDto) {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
-        return memberRepository.updateIntroduce(userNo, introduce);
+        memberDto.setNo(userNo);
+        return memberRepository.updateIntroduce(memberDto);
     }
 
     @Override
@@ -89,9 +91,9 @@ public class MemberServiceImpl implements MemberService {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
 
-        MemberDto selectMember = memberRepository.selectOneByNo(userNo);
+        MemberResponseDto.Member member = memberRepository.selectOneByNo(userNo);
 
-        return passwordEncoder.matches(pwd, selectMember.getPwd());
+        return passwordEncoder.matches(pwd, member.getPwd());
     }
 
     @Override
@@ -110,7 +112,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int resetPwd(MemberDto memberDto) {
+    public int resetPwd(MemberRequestDto.ResetPwd memberDto) {
         redisRepository.deleteNum(memberDto.getId());
         memberDto.setPwd(encodePwd(memberDto.getPwd()));
         return memberRepository.updatePwd(memberDto);
@@ -118,14 +120,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public boolean isIdExist(String id){
-        MemberDto memberDto = memberRepository.selectOneById(id);
-        return memberDto != null;
+        MemberResponseDto.Member member = memberRepository.selectOneById(id);
+        return member != null;
     }
 
     @Override
     public boolean isNickExist(String nick){
-        MemberDto memberDto = memberRepository.selectOneByNick(nick);
-        return memberDto != null;
+        MemberResponseDto.Member member = memberRepository.selectOneByNick(nick);
+        return member != null;
     }
 
     private String encodePwd(String pwd){

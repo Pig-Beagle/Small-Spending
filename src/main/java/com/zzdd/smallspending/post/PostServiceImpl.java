@@ -16,7 +16,7 @@ public class PostServiceImpl implements PostService{
     private final JwtUtil jwtUtil;
 
     @Override
-    public int write(String authorization, PostDto postDto) {
+    public int write(String authorization, PostRequestDto.Post postDto) {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
         postDto.setMemberNo(userNo);
@@ -25,12 +25,12 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<PostDto> listAll(PageDto pageDto) {
+    public List<PostResponseDto.Post> listAll(PostRequestDto.Page pageDto) {
         return postRepository.selectListAll(pageDto);
     }
 
     @Override
-    public List<PostDto> listByNo(String authorization, PageDto pageDto) {
+    public List<PostResponseDto.Post> listByNo(String authorization, PostRequestDto.Page pageDto) {
         if (authorization != null) {
             String token = authorization.split(" ")[1];
             Integer userNo = jwtUtil.getuserNo(token);
@@ -40,7 +40,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public int editUserPost(String authorization, PostDto postDto) {
+    public int editUserPost(String authorization, PostRequestDto.Post postDto) {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
         postDto.setMemberNo(userNo);
@@ -49,7 +49,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public int deleteUserPost(String authorization, PostDto postDto) {
+    public int deleteUserPost(String authorization, PostRequestDto.Delete postDto) {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
         postDto.setMemberNo(userNo);
@@ -58,16 +58,16 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<StatisticsDto> userStatistics(String authorization, StatisticsRequestDto statisticsRequestDto) {
+    public List<PostResponseDto.Statistics> userStatistics(String authorization, PostRequestDto.Statistics statistics) {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
-        statisticsRequestDto.setMemberNo(userNo);
+        statistics.setMemberNo(userNo);
 
-        return postRepository.selectStatistics(statisticsRequestDto);
+        return postRepository.selectStatistics(statistics);
     }
 
     @Override
-    public int addReaction(String authorization, ReactionDto reactionDto) {
+    public int addReaction(String authorization, PostRequestDto.Reaction reactionDto) {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
         reactionDto.setMemberNo(userNo);
@@ -83,7 +83,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public int deleteReaction(String authorization, ReactionDto reactionDto) {
+    public int deleteReaction(String authorization, PostRequestDto.Reaction reactionDto) {
         String token = authorization.split(" ")[1];
         Integer userNo = jwtUtil.getuserNo(token);
         reactionDto.setMemberNo(userNo);

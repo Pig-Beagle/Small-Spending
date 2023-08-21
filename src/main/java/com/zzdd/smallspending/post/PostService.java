@@ -3,19 +3,19 @@ package com.zzdd.smallspending.post;
 import java.util.List;
 
 public interface PostService {
-    int write(String authorization, PostDto postDto);
+    int write(String authorization, PostRequestDto.Post postDto);
 
-    List<PostDto> listAll(PageDto pageDto);
+    List<PostResponseDto.Post> listAll(PostRequestDto.Page pageDto);
 
-    List<PostDto> listByNo(String authorization, PageDto pageDto);
+    List<PostResponseDto.Post> listByNo(String authorization, PostRequestDto.Page pageDto);
 
-    int editUserPost(String authorization, PostDto postDto);
+    int editUserPost(String authorization, PostRequestDto.Post postDto);
 
-    int deleteUserPost(String authorization, PostDto postDto);
+    int deleteUserPost(String authorization, PostRequestDto.Delete postDto);
 
-    List<StatisticsDto> userStatistics(String authorization, StatisticsRequestDto statisticsRequestDto);
+    List<PostResponseDto.Statistics> userStatistics(String authorization, PostRequestDto.Statistics statistics);
 
-    int addReaction(String authorization, ReactionDto reactionDto);
+    int addReaction(String authorization, PostRequestDto.Reaction reactionDto);
 
-    int deleteReaction(String authorization, ReactionDto reactionDto);
+    int deleteReaction(String authorization, PostRequestDto.Reaction reactionDto);
 }

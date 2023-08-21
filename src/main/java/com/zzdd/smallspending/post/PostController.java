@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping()
-    public ResponseEntity<ApiMessage<Boolean>> write(HttpServletRequest request, PostDto postDto) {
+    public ResponseEntity<ApiMessage<Boolean>> write(HttpServletRequest request, @Validated PostRequestDto.Post postDto) {
         String authorization = request.getHeader("Authorization");
         int result = postService.write(authorization, postDto);
         if (result != 1) {
@@ -29,21 +30,21 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<ApiMessage<List<PostDto>>> listAll(PageDto pageDto) {
-        List<PostDto> list = postService.listAll(pageDto);
+    public ResponseEntity<ApiMessage<List<PostResponseDto.Post>>> listAll(PostRequestDto.Page pageDto) {
+        List<PostResponseDto.Post> list = postService.listAll(pageDto);
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "조회하기 성공", list));
     }
 
     @GetMapping("/list/{no}")
-    public ResponseEntity<ApiMessage<List<PostDto>>> listByNo(@PathVariable("no") int memberNo, HttpServletRequest request, PageDto pageDto) {
+    public ResponseEntity<ApiMessage<List<PostResponseDto.Post>>> listByNo(@PathVariable("no") int memberNo, HttpServletRequest request, PostRequestDto.Page pageDto) {
         String authorization = request.getHeader("Authorization");
         pageDto.setMemberNo(memberNo);
-        List<PostDto> list = postService.listByNo(authorization, pageDto);
+        List<PostResponseDto.Post> list = postService.listByNo(authorization, pageDto);
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "조회하기 성공", list));
     }
 
     @PatchMapping()
-    public ResponseEntity<ApiMessage<Boolean>> editUserPost(HttpServletRequest request, PostDto postDto) {
+    public ResponseEntity<ApiMessage<Boolean>> editUserPost(HttpServletRequest request, @Validated PostRequestDto.Post postDto) {
         String authorization = request.getHeader("Authorization");
         int result = postService.editUserPost(authorization, postDto);
         if (result != 1) {
@@ -53,7 +54,7 @@ public class PostController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<ApiMessage<Boolean>> deleteUserPost(HttpServletRequest request, PostDto postDto) {
+    public ResponseEntity<ApiMessage<Boolean>> deleteUserPost(HttpServletRequest request, PostRequestDto.Delete postDto) {
         String authorization = request.getHeader("Authorization");
         int result = postService.deleteUserPost(authorization, postDto);
         if (result != 1) {
@@ -64,9 +65,9 @@ public class PostController {
     }
 
     @GetMapping("/statistics")
-    public ResponseEntity<ApiMessage<List<StatisticsDto>>> userStatistics(HttpServletRequest request, StatisticsRequestDto statisticsRequestDto) {
+    public ResponseEntity<ApiMessage<List<PostResponseDto.Statistics>>> userStatistics(HttpServletRequest request, PostRequestDto.Statistics statistics) {
         String authorization = request.getHeader("Authorization");
-        List<StatisticsDto> list = postService.userStatistics(authorization, statisticsRequestDto);
+        List<PostResponseDto.Statistics> list = postService.userStatistics(authorization, statistics);
         if (list == null) {
             return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "조회 실패", list));
         }
@@ -75,7 +76,7 @@ public class PostController {
     }
 
     @PostMapping("/reaction")
-    public ResponseEntity<ApiMessage<Boolean>> addReaction(HttpServletRequest request, ReactionDto reactionDto) {
+    public ResponseEntity<ApiMessage<Boolean>> addReaction(HttpServletRequest request, PostRequestDto.Reaction reactionDto) {
         String authorization = request.getHeader("Authorization");
         int result = postService.addReaction(authorization, reactionDto);
         if (result != 1) {
@@ -86,7 +87,7 @@ public class PostController {
     }
 
     @DeleteMapping("/reaction")
-    public ResponseEntity<ApiMessage<Boolean>> deleteReaction(HttpServletRequest request, ReactionDto reactionDto) {
+    public ResponseEntity<ApiMessage<Boolean>> deleteReaction(HttpServletRequest request, PostRequestDto.Reaction reactionDto) {
         String authorization = request.getHeader("Authorization");
         int result = postService.deleteReaction(authorization, reactionDto);
         if (result != 1) {

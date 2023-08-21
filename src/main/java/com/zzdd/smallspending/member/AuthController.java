@@ -5,6 +5,7 @@ import com.zzdd.smallspending.token.TokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiMessage<Optional<TokenDto>>> login(MemberDto memberDto) {
+    public ResponseEntity<ApiMessage<Optional<TokenDto>>> login(@Validated MemberRequestDto.Login memberDto) {
         Optional<TokenDto> token = authService.login(memberDto);
         if (token.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiMessage<>(HttpStatus.FORBIDDEN, "로그인 실패", null));

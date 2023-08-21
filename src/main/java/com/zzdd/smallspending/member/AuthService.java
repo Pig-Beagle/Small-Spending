@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface AuthService {
 
-    Optional<TokenDto> login(MemberDto memberDto);
+    Optional<TokenDto> login(MemberRequestDto.Login memberDto);
 
     TokenDto newToken(String refreshToken, String token);
 

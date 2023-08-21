@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zzdd.smallspending.member.MemberMapper">
-    <insert id="insertMember" parameterType="MemberRequestDto.SignUp">
+    <insert id="insertMember" parameterType="MemberRequestDto">
         INSERT INTO MEMBER(ID,
                            PWD,
                            NAME,
@@ -14,21 +14,20 @@
                 #{nick})
     </insert>
 
-    <update id="deleteOneMember" parameterType="MemberRequestDto">
+    <update id="deleteOneMember" parameterType="int">
         UPDATE MEMBER
         SET QUIT_YN = 'Y'
         WHERE NO = #{no}
     </update>
 
-    <update id="updateMyPage" parameterType="MemberRequestDto">
+    <update id="updateNick" parameterType="MemberRequestDto">
         UPDATE MEMBER
-        SET NICK      = #{nick},
-            INTRODUCE = #{introduce}
+        SET NICK = #{nick}
         WHERE NO = #{no}
           AND QUIT_YN = 'N'
     </update>
 
-    <update id="insertIntroduce" parameterType="MemberRequestDto">
+    <update id="updateIntroduce" parameterType="MemberRequestDto">
         UPDATE MEMBER
         SET INTRODUCE = #{introduce}
         WHERE NO = #{no}
@@ -42,21 +41,21 @@
           AND QUIT_YN = 'N'
     </update>
 
-    <select id="selectOneById" parameterType="String" resultType="MemberDto">
-        SELECT *
+    <select id="selectOneById" parameterType="String" resultType="MemberResponseDto">
+        SELECT NO, ID, PWD, NAME, NICK, INTRODUCE, ENROLL_DATE, QUIT_YN
         FROM MEMBER
         WHERE ID = #{value}
           AND QUIT_YN = 'N'
     </select>
 
-    <select id="selectOneByNick" parameterType="String" resultType="MemberDto">
-        SELECT *
+    <select id="selectOneByNick" parameterType="String" resultType="MemberResponseDto">
+        SELECT NO, ID, PWD, NAME, NICK, INTRODUCE, ENROLL_DATE, QUIT_YN
         FROM MEMBER
         WHERE NICK = #{value}
     </select>
 
-    <select id="selectOneByNo" parameterType="int" resultType="MemberDto">
-        SELECT *
+    <select id="selectOneByNo" parameterType="int" resultType="MemberResponseDto">
+        SELECT NO, ID, PWD, NAME, NICK, INTRODUCE, ENROLL_DATE, QUIT_YN
         FROM MEMBER
         WHERE NO = #{value}
           AND QUIT_YN = 'N'

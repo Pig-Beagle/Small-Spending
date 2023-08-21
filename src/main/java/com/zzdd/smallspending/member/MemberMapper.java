@@ -1,26 +1,25 @@
 package com.zzdd.smallspending.member;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 
 @Mapper
 @MapperScan
 public interface MemberMapper {
-    int insertMember(MemberDto memberDto);
+    int insertMember(MemberRequestDto.SignUp memberDto);
 
-    int deleteOneMember(MemberDto memberDto);
+    int deleteOneMember(int userNo);
 
-    int updateMyPage(MemberDto memberDto);
+    int updateNick(MemberRequestDto.EditNick memberDto);
 
-    int updateIntroduce(@Param("no") int userNo, @Param("introduce") String introduce);
+    int updateIntroduce(MemberRequestDto.EditIntroduce memberDto);
 
-    int updatePwd(MemberDto memberDto);
+    int updatePwd(MemberRequestDto.ResetPwd memberDto);
 
-    MemberDto selectOneById(String id);
+    MemberResponseDto.Member selectOneById(String id);
 
-    MemberDto selectOneByNick(String nick);
+    MemberResponseDto.Member selectOneByNick(String nick);
 
-    MemberDto selectOneByNo(int userNo);
+    MemberResponseDto.Member selectOneByNo(int userNo);
 }

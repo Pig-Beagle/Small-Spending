@@ -1,15 +1,15 @@
 package com.zzdd.smallspending.member;
 
 public interface MemberService {
-    int signUp(MemberDto memberDto);
+    int signUp(MemberRequestDto.SignUp memberDto);
 
     int deleteMember(String authorization);
 
-    MemberDto myPage(String authorization);
+    MemberResponseDto.Member myPage(String authorization);
 
-    int editMyPage(String authorization, MemberDto memberDto);
+    int editNick(String authorization, MemberRequestDto.EditNick memberDto);
 
-    int introduce(String authorization, String introduce);
+    int editItroduce(String authorization, MemberRequestDto.EditIntroduce memberDto);
 
     boolean validatePwd(String authorization, String pwd);
 
@@ -17,7 +17,7 @@ public interface MemberService {
 
     boolean validateNum(String userId, String num);
 
-    int resetPwd(MemberDto memberDto);
+    int resetPwd(MemberRequestDto.ResetPwd memberDto);
 
     boolean isIdExist(String id);
 

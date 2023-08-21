@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zzdd.smallspending.post.PostMapper">
-    <insert id="insertPost" parameterType="PostDto">
+    <insert id="insertPost" parameterType="PostRequestDto">
         INSERT INTO SPENDING(MEMBER_NO,
                              AMOUNT,
                              CATEGORY,
@@ -15,7 +15,8 @@
                 #{content},
                 #{openYN})
     </insert>
-    <select id="selectListAll" parameterType="PageDto" resultType="PostDto">
+
+    <select id="selectListAll" parameterType="PostRequestDto" resultType="PostResponseDto">
         SELECT NO,
                MEMBER_NO,
                AMOUNT,
@@ -28,7 +29,7 @@
         LIMIT #{size} OFFSET #{offset}
     </select>
 
-    <select id="selectListByNo" parameterType="PageDto" resultType="PostDto">
+    <select id="selectListByNo" parameterType="PostRequestDto" resultType="PostResponseDto">
         SELECT
         NO,
         MEMBER_NO,
@@ -46,7 +47,7 @@
         OFFSET #{offset}
     </select>
 
-    <update id="updateUserPost" parameterType="PostDto">
+    <update id="updateUserPost" parameterType="PostRequestDto">
         UPDATE SPENDING
         SET AMOUNT   = #{amount},
             CATEGORY = #{category},
@@ -56,14 +57,14 @@
           AND MEMBER_NO = #{memberNo}
     </update>
 
-    <delete id="deletePost" parameterType="PostDto">
+    <delete id="deletePost" parameterType="PostRequestDto">
         UPDATE SPENDING
         SET DELETE_YN = 'Y'
         WHERE NO = #{no}
         AND MEMBER_NO = #{memberNo}
     </delete>
     
-    <select id="selectStatistics" parameterType="StatisticsRequestDto" resultType="StatisticsDto">
+    <select id="selectStatistics" parameterType="PostRequestDto" resultType="PostResponseDto">
         SELECT SUM(AMOUNT) AS AMOUNT,
                CATEGORY,
                DATE_FORMAT(WRITE_DATE, '%Y-%m') AS DATE
@@ -73,7 +74,7 @@
         GROUP BY DATE, CATEGORY;
     </select>
 
-    <insert id="insertReaction" parameterType="ReactionDto">
+    <insert id="insertReaction" parameterType="PostRequestDto">
         INSERT INTO REACTION(MEMBER_NO,
                              SPENDING_NO,
                              REACTION_CATEGORY)
@@ -82,7 +83,7 @@
                 #{reaction})
     </insert>
 
-    <insert id="upsertReactionCnt" parameterType="ReactionDto">
+    <insert id="upsertReactionCnt" parameterType="PostRequestDto">
         INSERT INTO REACTION_CNT(SPENDING_NO,
                                  REACTION_CATEGORY,
                                  COUNT)
@@ -92,14 +93,14 @@
         ON DUPLICATE KEY UPDATE COUNT = COUNT + 1
     </insert>
 
-    <delete id="deleteReaction" parameterType="ReactionDto">
+    <delete id="deleteReaction" parameterType="PostRequestDto">
         DELETE FROM REACTION
         WHERE MEMBER_NO = #{memberNo}
           AND SPENDING_NO = #{postNo}
           AND REACTION_CATEGORY = #{reaction}
     </delete>
 
-    <update id="decreaseReactionCnt" parameterType="ReactionDto">
+    <update id="decreaseReactionCnt" parameterType="PostRequestDto">
         UPDATE REACTION_CNT
         SET COUNT = COUNT - 1
         WHERE SPENDING_NO = #{postNo}

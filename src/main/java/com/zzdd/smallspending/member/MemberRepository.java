@@ -2,19 +2,19 @@ package com.zzdd.smallspending.member;
 
 public interface MemberRepository {
 
-    int insertMember(MemberDto memberDto);
+    int insertMember(MemberRequestDto.SignUp memberDto);
 
-    int deleteMember(MemberDto memberDto);
+    int deleteMember(int userNo);
 
-    int updateMyPage(MemberDto memberDto);
+    int updateNick(MemberRequestDto.EditNick memberDto);
 
-    int updateIntroduce(int userNo, String introduce);
+    int updateIntroduce(MemberRequestDto.EditIntroduce memberDto);
 
-    int updatePwd(MemberDto memberDto);
+    int updatePwd(MemberRequestDto.ResetPwd memberDto);
 
-    MemberDto selectOneByNo(int userNo);
+    MemberResponseDto.Member selectOneByNo(int userNo);
 
-    MemberDto selectOneByNick(String nick);
+    MemberResponseDto.Member selectOneByNick(String nick);
 
-    MemberDto selectOneById(String id);
+    MemberResponseDto.Member selectOneById(String id);
 }

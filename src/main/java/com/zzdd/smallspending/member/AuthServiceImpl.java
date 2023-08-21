@@ -22,18 +22,18 @@ public class AuthServiceImpl implements AuthService{
     private final JwtUtil jwtUtil;
 
     @Override
-    public Optional<TokenDto> login(MemberDto memberDto) {
-        MemberDto selectMember = memberRepository.selectOneById(memberDto.getId());
+    public Optional<TokenDto> login(MemberRequestDto.Login memberDto) {
+        MemberResponseDto.Member member = memberRepository.selectOneById(memberDto.getId());
 
-        if(selectMember == null){
+        if(member == null){
             return Optional.empty();
         }
 
-        if(!passwordEncoder.matches(memberDto.getPwd(), selectMember.getPwd())){
+        if(!passwordEncoder.matches(memberDto.getPwd(), member.getPwd())){
             return Optional.empty();
         }
-        TokenDto token = jwtUtil.generateToken(selectMember.getNo());
-        redisRepository.save(new RefreshToken(selectMember.getNo(), token.getRefreshToken()));
+        TokenDto token = jwtUtil.generateToken(member.getNo());
+        redisRepository.save(new RefreshToken(member.getNo(), token.getRefreshToken()));
 
         return Optional.of(token);
     }
