@@ -25,7 +25,7 @@ public class JwtUtil {
     }
 
     public TokenDto generateToken(int userNo) {
-        long expiredTime = 1000L;
+        long expiredTime = 1000 * 60 * 10L;
         String accessToken = Jwts.builder()
                 .claim("userNo", userNo)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -33,7 +33,7 @@ public class JwtUtil {
                 .signWith(getSigninKey(), SignatureAlgorithm.HS512)
                 .compact();
 
-        long expiredRefreshTime = 1209600000L;
+        long expiredRefreshTime = 1000 * 60 * 60 * 24 * 14L;
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(System.currentTimeMillis() + expiredRefreshTime))
                 .signWith(getSigninKey(), SignatureAlgorithm.HS512)

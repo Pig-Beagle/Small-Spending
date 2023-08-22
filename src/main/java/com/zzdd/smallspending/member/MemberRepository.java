@@ -4,6 +4,8 @@ public interface MemberRepository {
 
     int insertMember(MemberRequestDto.SignUp memberDto);
 
+    int insertOauthMember(MemberRequestDto.OauthSignUp memberDto);
+
     int deleteMember(int userNo);
 
     int updateNick(MemberRequestDto.EditNick memberDto);

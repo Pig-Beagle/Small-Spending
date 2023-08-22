@@ -26,7 +26,6 @@ public class MemberController {
             return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "회원가입 실패", false));
         }
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "회원가입 성공", true));
-
     }
 
     @DeleteMapping()

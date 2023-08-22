@@ -14,6 +14,13 @@
                 #{nick})
     </insert>
 
+    <insert id="insertOauthMember" parameterType="MemberRequestDto">
+        INSERT INTO MEMBER(ID,
+                           NAME)
+        VALUES (#{id},
+                #{name})
+    </insert>
+
     <update id="deleteOneMember" parameterType="int">
         UPDATE MEMBER
         SET QUIT_YN = 'Y'
@@ -41,10 +48,10 @@
           AND QUIT_YN = 'N'
     </update>
 
-    <select id="selectOneById" parameterType="String" resultType="MemberResponseDto">
+    <select id="selectOneById" parameterType="String" resultType="com.zzdd.smallspending.member.MemberResponseDto$Member">
         SELECT NO, ID, PWD, NAME, NICK, INTRODUCE, ENROLL_DATE, QUIT_YN
         FROM MEMBER
-        WHERE ID = #{value}
+        WHERE ID = #{id}
           AND QUIT_YN = 'N'
     </select>
 

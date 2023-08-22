@@ -17,6 +17,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
+    public int insertOauthMember(MemberRequestDto.OauthSignUp memberDto) {
+        return memberMapper.insertOauthMember(memberDto);
+    }
+
+    @Override
     public int deleteMember(int userNo) {
         return memberMapper.deleteOneMember(userNo);
     }

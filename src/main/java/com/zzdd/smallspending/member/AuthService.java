@@ -8,7 +8,10 @@ public interface AuthService {
 
     Optional<TokenDto> login(MemberRequestDto.Login memberDto);
 
+    TokenDto googleLogin(String code);
+
     TokenDto newToken(String refreshToken, String token);
 
     boolean logout(String authorization);
+
 }

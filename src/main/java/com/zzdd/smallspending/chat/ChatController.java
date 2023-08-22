@@ -25,7 +25,7 @@ public class ChatController {
     public ResponseEntity<ApiMessage<Page<ChatDto>>> getOrCreateChatRoom(@PathVariable("postNo") int postNo, int page) {
         Page<ChatDto> chatList = chatService.findByRoomNo(postNo, page);
         if(chatList == null){
-            return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "채팅방 조회 실패", null));
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.OK, "채팅방 조회 실패", null));
         }
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "채팅 조회 성공", chatList));
     }
@@ -44,7 +44,7 @@ public class ChatController {
         }
         ChatDto chat = chatService.updateChat(authorization, chatDto);
         if(chat == null){
-            return ResponseEntity.ok(new ApiMessage<>(HttpStatus.BAD_REQUEST, "채팅 수정 실패", null));
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "채팅 수정 실패", null));
         }
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "채팅 수정 성공", chat));
     }
@@ -59,7 +59,7 @@ public class ChatController {
         int result = chatService.deleteChat(authorization, chatDto);
 
         if(result != 1){
-            return ResponseEntity.ok(new ApiMessage<>(HttpStatus.BAD_REQUEST, "채팅 삭제 실패", false));
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "채팅 삭제 실패", false));
         }
         return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "채팅 삭제 성공", true));
     }

@@ -9,6 +9,8 @@ import org.mybatis.spring.annotation.MapperScan;
 public interface MemberMapper {
     int insertMember(MemberRequestDto.SignUp memberDto);
 
+    int insertOauthMember(MemberRequestDto.OauthSignUp memberDto);
+
     int deleteOneMember(int userNo);
 
     int updateNick(MemberRequestDto.EditNick memberDto);
@@ -22,4 +24,5 @@ public interface MemberMapper {
     MemberResponseDto.Member selectOneByNick(String nick);
 
     MemberResponseDto.Member selectOneByNo(int userNo);
+
 }

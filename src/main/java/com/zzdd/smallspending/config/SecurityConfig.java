@@ -37,17 +37,16 @@ public class SecurityConfig {
                 .cors().disable()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/*").permitAll()
-                .antMatchers("/chat/*").permitAll()
-                .antMatchers("/chat").authenticated()
-                .antMatchers("/post").authenticated()
-                .antMatchers("/post/list/*").permitAll()
-                .and()
+                    .antMatchers("/user/*").permitAll()
+                    .antMatchers("/chat/*").permitAll()
+                    .antMatchers("/chat").authenticated()
+                    .antMatchers("/post").authenticated()
+                    .antMatchers("/post/list/*").permitAll()
+                    .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
                 .addFilterBefore(new JwtAuthenticationFilter(secretKey, jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
 }
