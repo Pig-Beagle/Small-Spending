@@ -16,7 +16,7 @@
 - FrameWork: Srping Boot (2.7.13)
 - Database: MySQL(8.0.33), MongoDB(7.0.0), Redis(7.0.12)
 
-  # 📌 주요기능
+# 📌 주요기능
 회원
 
 개인 프로필
