@@ -1,7 +1,7 @@
 spring:
   datasource:
-    username: root
-    password: 1234
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
     mapper-locations: classpath:/mapper/**/*.xml
     url: jdbc:mysql://${MYSQL_HOST}:3306/spending?&serverTimezone=UTC&autoReconnect=true&allowMultiQueries=true&characterEncoding=UTF-8
     driver: com.mysql.cj.jdbc.Driver
@@ -10,7 +10,7 @@ spring:
     port: 6379
   data:
     mongodb:
-      uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:27017/spending?authSource=admin
+      uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/spending?retryWrites=true&w=majority
   mail:
     host: smtp.gmail.com
     port: 587
