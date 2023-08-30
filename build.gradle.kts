@@ -39,6 +39,8 @@ dependencies {
 	implementation ("org.springframework.boot:spring-boot-starter-websocket")
 	implementation ("org.springframework.boot:spring-boot-starter-validation")
 
+	implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	runtimeOnly ("com.mysql:mysql-connector-j")
@@ -48,6 +50,7 @@ dependencies {
 
 }
 
-tasks.withType<Test> {
-	useJUnitPlatform()
-}
+
+//tasks.withType<Test> {
+//	useJUnitPlatform()
+//}
