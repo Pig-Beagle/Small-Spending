@@ -10,7 +10,7 @@ public interface AuthService {
 
     TokenDto googleLogin(String code);
 
-    TokenDto newToken(String refreshToken, String token);
+    Optional<TokenDto> newToken(String refreshToken, String token);
 
     boolean logout(String authorization);
 

@@ -75,6 +75,10 @@ public class AuthServiceImpl implements AuthService{
         httpHeaders.set("Authorization", "Bearer " + accessToken);
         JsonNode userInfo = restTemplate.exchange("https://www.googleapis.com/oauth2/v2/userinfo", HttpMethod.GET, new HttpEntity<>(httpHeaders), JsonNode.class).getBody();
 
+        if(userInfo == null){
+            throw new IllegalArgumentException("유저 정보를 가져오는데 실패했습니다.");
+        }
+
         String email = userInfo.get("email").asText();
         String name = userInfo.get("name").asText();
 
@@ -98,28 +102,28 @@ public class AuthServiceImpl implements AuthService{
     }
 
 
-    public TokenDto newToken(String authorization, String refreshToken) {
+    public Optional<TokenDto> newToken(String authorization, String refreshToken) {
         String token = authorization.split(" ")[1];
         if(!jwtUtil.isExpired(token)){
-            return null;
+            return Optional.empty();
         }
         if(jwtUtil.isExpired(refreshToken)){
-            return null;
+            return Optional.empty();
         }
 
         Optional<RefreshToken> redisToken = redisRepository.findById(refreshToken);
 
         if(redisToken.isEmpty()){
-            return null;
+            return Optional.empty();
         }
         if(!redisToken.get().getRefreshToken().equals(refreshToken)){
-            return null;
+            return Optional.empty();
         }
 
         int userNo = redisToken.get().getUserNo();
         TokenDto newToken = jwtUtil.generateToken(userNo);
         redisRepository.save(new RefreshToken(userNo, newToken.getRefreshToken()));
-        return newToken;
+        return Optional.of(newToken);
     }
 
 
