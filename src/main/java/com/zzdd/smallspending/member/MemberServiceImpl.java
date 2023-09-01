@@ -97,18 +97,18 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public boolean sendMail(String userId) {
-        if(!isIdExist(userId)){
+    public boolean sendMail(MemberRequestDto.SendMail memberDto) {
+        if(!isIdExist(memberDto.getId())){
             return false;
         }
-        emailRepository.sendEmail(userId);
+        emailRepository.sendEmail(memberDto.getId());
         return true;
     }
 
     @Override
-    public boolean validateNum(String userId, String num) {
-        String numData = redisRepository.getNum(userId);
-        return num.equals(numData);
+    public boolean validateNum(MemberRequestDto.ValidateNum memberDto) {
+        String numData = redisRepository.getNum(memberDto.getId());
+        return memberDto.getNum().equals(numData);
     }
 
     @Override

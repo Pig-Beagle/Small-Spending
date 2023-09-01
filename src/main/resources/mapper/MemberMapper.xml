@@ -44,7 +44,7 @@
     <update id="updatePwd" parameterType="MemberRequestDto">
         UPDATE MEMBER
         SET pwd = #{pwd}
-        WHERE NO = #{no}
+        WHERE id = #{id}
           AND QUIT_YN = 'N'
     </update>
 
@@ -55,13 +55,13 @@
           AND QUIT_YN = 'N'
     </select>
 
-    <select id="selectOneByNick" parameterType="String" resultType="MemberResponseDto">
+    <select id="selectOneByNick" parameterType="String" resultType="com.zzdd.smallspending.member.MemberResponseDto$Member">
         SELECT NO, ID, PWD, NAME, NICK, INTRODUCE, ENROLL_DATE, QUIT_YN
         FROM MEMBER
         WHERE NICK = #{value}
     </select>
 
-    <select id="selectOneByNo" parameterType="int" resultType="MemberResponseDto">
+    <select id="selectOneByNo" parameterType="int" resultType="com.zzdd.smallspending.member.MemberResponseDto$Member">
         SELECT NO, ID, PWD, NAME, NICK, INTRODUCE, ENROLL_DATE, QUIT_YN
         FROM MEMBER
         WHERE NO = #{value}

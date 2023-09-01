@@ -13,9 +13,9 @@ public interface MemberService {
 
     boolean validatePwd(String authorization, String pwd);
 
-    boolean sendMail(String userId);
+    boolean sendMail(MemberRequestDto.SendMail memberDto);
 
-    boolean validateNum(String userId, String num);
+    boolean validateNum(MemberRequestDto.ValidateNum memberDto);
 
     int resetPwd(MemberRequestDto.ResetPwd memberDto);
 
