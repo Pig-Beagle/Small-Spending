@@ -2,6 +2,7 @@ package com.zzdd.smallspending.config;
 
 import com.zzdd.smallspending.token.RefreshToken;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class RedisRepository {
 
     private final RedisTemplate<String, String> redisTemplate;
@@ -45,10 +47,10 @@ public class RedisRepository {
         return Optional.of(new RefreshToken(userNo, refreshToken));
     }
 
-    public String getNum(String key){
-        key = "num_" + key;
+    public String getNum(String userId){
+        userId = "num_" + userId;
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        return valueOperations.get(key);
+        return valueOperations.get(userId);
     }
 
     public void setNumExpired(String key, String num, long expiredTime) {
