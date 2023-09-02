@@ -4,6 +4,7 @@ import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 @Alias("PostRequestDto")
@@ -13,11 +14,10 @@ public class PostRequestDto {
     public static class Post {
         private int no;
         private int memberNo;
-        @NotBlank(message = "금액은 필수 입력 값 입니다.")
+        @NotNull(message = "금액은 필수 입력 값 입니다.")
         private int amount;
-        @NotBlank(message = "카테고리는 필수 선택 입니다.")
+        @NotNull(message = "카테고리는 필수 선택 입니다.")
         private int category;
-        @Null(message = "내용을 입력해주세요.")
         private String content;
         @NotBlank(message = "오픈 여부를 선택해 주세요.")
         private String openYN;
