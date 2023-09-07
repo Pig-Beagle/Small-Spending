@@ -72,12 +72,13 @@ public class PostServiceImpl implements PostService{
         Integer userNo = jwtUtil.getuserNo(token);
         reactionDto.setMemberNo(userNo);
 
-        int result = 0;
-        result = postRepository.insertReaction(reactionDto);
+        int result = postRepository.insertReaction(reactionDto);
+
         if(result == 0) {
             return 0;
         }
-        result = postRepository.upsertReactionCnt(reactionDto);
+
+        postRepository.upsertReactionCnt(reactionDto);
 
         return result;
     }
