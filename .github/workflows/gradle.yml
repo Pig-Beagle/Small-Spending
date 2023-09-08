@@ -31,7 +31,9 @@ jobs:
 
     # Gradle build
     - name: Build with Gradle
-      run: ./gradlew bootJar
+      run: |
+        chmod +x ./gradlew
+        ./gradlew bootJar
 
     # docker hub login and push
     - name: docker hub login and push
