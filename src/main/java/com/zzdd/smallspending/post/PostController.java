@@ -22,13 +22,13 @@ public class PostController {
 
     @Operation(summary = "게시글 작성하기", description = "게시글 작성하기 메소드 입니다.")
     @PostMapping()
-    public ResponseEntity<ApiMessage<Boolean>> write(HttpServletRequest request, @RequestBody @Validated PostRequestDto.Post postDto) {
+    public ResponseEntity<ApiMessage<Integer>> write(HttpServletRequest request, @RequestBody @Validated PostRequestDto.Post postDto) {
         String authorization = request.getHeader("Authorization");
         int result = postService.write(authorization, postDto);
         if (result != 1) {
-            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "작성하기 실패", false));
+            return ResponseEntity.badRequest().body(new ApiMessage<>(HttpStatus.BAD_REQUEST, "작성하기 실패", null));
         }
-        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "작성하기 성공", true));
+        return ResponseEntity.ok(new ApiMessage<>(HttpStatus.OK, "작성하기 성공", postDto.getNo()));
     }
 
     @Operation(summary = "게시글 조회하기", description = "게시글 조회하기 메소드 입니다.")
