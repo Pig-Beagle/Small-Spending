@@ -23,7 +23,7 @@ public class RedisRepository {
         // redisDB에 저장
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         valueOperations.set(refreshToken.getRefreshToken(), String.valueOf(refreshToken.getUserNo()));
-        redisTemplate.expire(refreshToken.getRefreshToken(), 1209600000L, TimeUnit.MICROSECONDS);
+        redisTemplate.expire(refreshToken.getRefreshToken(), 1000 * 60 * 60 * 24 * 14L, TimeUnit.MILLISECONDS);
     }
 
     public boolean delete(String refreshToken){
