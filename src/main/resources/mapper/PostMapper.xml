@@ -16,7 +16,7 @@
                 #{openYN})
     </insert>
 
-    <select id="selectListAll" parameterType="PostRequestDto" resultType="PostResponseDto">
+    <select id="selectListAll" parameterType="PostRequestDto" resultType="com.zzdd.smallspending.post.PostResponseDto$Post">
         SELECT NO,
                MEMBER_NO,
                AMOUNT,
@@ -29,7 +29,7 @@
         LIMIT #{size} OFFSET #{offset}
     </select>
 
-    <select id="selectListByNo" parameterType="PostRequestDto" resultType="PostResponseDto">
+    <select id="selectListByNo" parameterType="PostRequestDto" resultType="com.zzdd.smallspending.post.PostResponseDto$Post">
         SELECT
         NO,
         MEMBER_NO,
@@ -64,7 +64,7 @@
         AND MEMBER_NO = #{memberNo}
     </delete>
     
-    <select id="selectStatistics" parameterType="PostRequestDto" resultType="PostResponseDto">
+    <select id="selectStatistics" parameterType="PostRequestDto" resultType="com.zzdd.smallspending.post.PostResponseDto$Statistics">
         SELECT SUM(AMOUNT) AS AMOUNT,
                CATEGORY,
                DATE_FORMAT(WRITE_DATE, '%Y-%m') AS DATE
